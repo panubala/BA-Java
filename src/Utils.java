@@ -20,10 +20,10 @@ import org.xml.sax.SAXException;
 
 public class Utils {
 	
-//	public static void main(String[] args) throws FileNotFoundException, IOException {
-//		Utils util = new Utils();
-//		System.out.println(util.getContent("/Users/neptun/Desktop/BA/pmc/pmc-00/00/13924.nxml"));
-//	}
+	public static void main(String[] args) throws FileNotFoundException, IOException {
+		Utils util = new Utils();
+		System.out.println(util.getTitle("/Users/neptun/Desktop/BA/pmc/pmc-00/00/138682.nxml"));
+	}
 
 	private String content;
 	
@@ -52,10 +52,15 @@ public class Utils {
 
 	public String getTitle(String path) throws FileNotFoundException, IOException{
 		readFile(path);
-		Pattern regex = Pattern.compile("<article-title>" + "([^<]*)" + "</article-title>", Pattern.DOTALL);
+		
+		Pattern regex = Pattern.compile("<article-title>([^<]*)</article-title>", Pattern.DOTALL);
+		
+		
 		Matcher matcher = regex.matcher(content);
-		matcher.find();
-		String text = matcher.group().replaceAll("<article-title>", "").replaceAll("</article-title>", "").replaceAll("<[^>]+>", "").replaceAll(">", "");
+		String text = "";
+		if (matcher.find()){
+			text = text + " "+ matcher.group().replaceAll("<article-title>", "").replaceAll("</article-title>", "").replaceAll("<[^>]+>", "").replaceAll(">", "");
+		}
 		return text;
 
 	}

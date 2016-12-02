@@ -35,11 +35,11 @@ public class Indexer {
 	
 	private IndexWriter writer;
 	Directory dir;
-	
+	static TextFileFilter fileFilter = new TextFileFilter(); 
 	
 	 public static void main(String args[]) throws IOException, ParserConfigurationException, SAXException {
-		TextFileFilter fileFilter = new TextFileFilter();  
-		ArrayList<File> filepaths = FileSystem.createFileArray(new File("/Users/neptun/Desktop/BA/pmc/pmc-00/00"), fileFilter);
+		 ArrayList<File> filepaths = createArray();
+		
 		String indexDirectory = "/Users/neptun/Desktop/BA/pmc/Index/";
 	        
 		long start = System.currentTimeMillis();
@@ -53,9 +53,59 @@ public class Indexer {
 	    System.out.println("Indexing " + numIndexed + " files took " + (end - start) + " milliseconds");
 	        
 	    }
-	 
+	public static ArrayList<File> createArray(){
+		
+		FileSystem fileSys = new FileSystem();
+		ArrayList<File> filepaths = null;
+		
+		//pmc-00
+		for (int i = 0; i < 10; i++) {
+			filepaths = fileSys.addDir(new File("/Users/neptun/Desktop/BA/pmc/pmc-00/0"+i), fileFilter);
+		}
+		for (int i = 10; i < 53; i++) {
+			filepaths = fileSys.addDir(new File("/Users/neptun/Desktop/BA/pmc/pmc-00/"+i), fileFilter);
+		}
+		
+
+		
+		//pmc-01
+		for (int i = 0; i < 10; i++) {
+			filepaths = fileSys.addDir(new File("/Users/neptun/Desktop/BA/pmc/pmc-01/0"+i), fileFilter);
+		}
+		for (int i = 10; i < 49; i++) {
+			filepaths = fileSys.addDir(new File("/Users/neptun/Desktop/BA/pmc/pmc-01/"+i), fileFilter);
+		}
+		
+		
+		//pmc-02
+		for (int i = 0; i < 10; i++) {
+			filepaths = fileSys.addDir(new File("/Users/neptun/Desktop/BA/pmc/pmc-02/0"+i), fileFilter);
+		}
+		for (int i = 10; i < 78; i++) {
+			filepaths = fileSys.addDir(new File("/Users/neptun/Desktop/BA/pmc/pmc-02/"+i), fileFilter);
+		}
+		
+		
+		//pmc-03
+		for (int i = 0; i < 10; i++) {
+			filepaths = fileSys.addDir(new File("/Users/neptun/Desktop/BA/pmc/pmc-03/0"+i), fileFilter);
+		}
+		for (int i = 10; i < 73; i++) {
+			filepaths = fileSys.addDir(new File("/Users/neptun/Desktop/BA/pmc/pmc-03/"+i), fileFilter);
+		}
+		
+		
+//		for(int i = 0; i < filepaths.size(); i++) {   
+//		    System.out.print(filepaths.get(i)+"\n" );
+//		} 
+//		
+//		System.out.println("Total number:" + filepaths.size());
+		
+		return filepaths;
+	} 
 	 
 	public Indexer(String indexDir) throws IOException{
+		
 		StandardAnalyzer analyzer = new StandardAnalyzer();
 		
 		dir = FSDirectory.open(Paths.get(indexDir));
@@ -69,13 +119,12 @@ public class Indexer {
 	}
 	
 	private Document getDocument(File file) throws IOException, ParserConfigurationException, SAXException, FileSystemException{
-
+		System.out.println("Indexing File: " + file.toString());
 		Utils parser = new Utils();
 		
 		String content =  parser.getContent(file.getPath());		
 		String title=  parser.getTitle(file.getPath());
 		String docID=  parser.getdocID(file.getPath());
-		
 		Document document = new Document();
 		
 		document.add(new TextField("content", content,Field.Store.NO));

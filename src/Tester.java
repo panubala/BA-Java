@@ -25,40 +25,44 @@ import org.apache.lucene.search.Weight;
 
 import org.xml.sax.SAXException;
 
-public class LuceneTester {
+public class Tester {
 	
    String indexDir = "/Users/neptun/Desktop/BA/pmc/Index/";
-   static String dataDir = "/Users/neptun/Desktop/BA/pmc/pmc-00/00/13900.nxml";
    Searcher searcher;
+   public static int queryID;
    
-   
-
-
+  
    public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException, ParseException, org.apache.lucene.queryparser.classic.ParseException {
-      LuceneTester tester;
-      /*
-      ReadPMC readPMC = new ReadPMC();
-      String query2016 = ReadPMC.readFile16All("/Users/neptun/Desktop/BA/topics2016.xml");
-      String query2015 = ReadPMC.readFile16All("/Users/neptun/Desktop/BA/topics2015A.xml");
-      String query2014 = ReadPMC.readFile16All("/Users/neptun/Desktop/BA/topics2014.xml");
-      String queryAll = query2016 + query2015 + query2014;
-      */
+      Tester tester = new Tester();
+      ArrayList <String> query = tester.preprocess("/Users/neptun/Desktop/BA/topics2016.xml", "topic");
+      //tester.sort(query.get(2));
+//      for (int i = 1; i < query.size(); i++) {
+//    	  tester.sort(query.get(i));
+////    	  System.out.println(query.get(i));
+//      }
       
-	ArrayList <String> query2016 = ReadFiles.readTopic("/Users/neptun/Desktop/BA/topics2016.xml");
-      System.out.println(query2016.get(1).replaceAll("[*:,.;#%$!?\\-/\\[\\]]+", ""));
-      queryID = 1;
-    try {
-          tester = new LuceneTester();
-          tester.sortUsingRelevance(query2016.get(1).replaceAll("[*:,.;#%$!?\\-/\\[\\]]+", ""));
-   	} catch (IOException e) {
-          e.printStackTrace();
-    }
+//      ArrayList <String> query2016 = ReadFiles.readTopic("/Users/neptun/Desktop/BA/topics2016.xml", "topic");
+//      System.out.println(query2016.get(2).replaceAll("[*:,.;#%$!?\\-/\\[\\]]+", ""));
+//      queryID = 1;
+//    
+//      tester.sort(query2016.get(2).replaceAll("[*:,.;#%$!?\\-/\\[\\]]+", ""));
+
       
     		
    }
-   public static int queryID;
    
-   private void sortUsingRelevance(String searchQuery) throws IOException, org.apache.lucene.queryparser.classic.ParseException{
+   public ArrayList <String> preprocess(String path, String key) throws ParserConfigurationException, SAXException, IOException{
+	   ArrayList <String> query = ReadFiles.read(path, key);
+	   
+//	   for (int i = 1; i < query.size(); i++) {
+//		   query.add(i, query.get(i).replaceAll("[*:,.;#%$!?\\-/\\[\\]]+", "")); 
+//	   }
+	   System.out.println(query.size());
+	   return query;
+   }
+   
+   
+   private void sort(String searchQuery) throws IOException, org.apache.lucene.queryparser.classic.ParseException{
       searcher = new Searcher(indexDir, "content");
       long startTime = System.currentTimeMillis();
 

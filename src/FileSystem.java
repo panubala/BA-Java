@@ -3,16 +3,19 @@ import java.io.FileFilter;
 import java.util.ArrayList;
 
 public class FileSystem {
-	
+		public ArrayList<File> allFile;
+		
+		public FileSystem(){
+			allFile = new ArrayList<File>();
+		}
 		//it removes all directories and creates an array with all files
-		static ArrayList<File> createFileArray(File file, FileFilter filter){
-			ArrayList<File> allFile = new ArrayList<File>();
+		public ArrayList<File> addDir(File file, FileFilter filter){
 			addPath(file, allFile, filter);
 			return allFile;
 			
 		}
 		
-		static void addPath(File file, ArrayList<File> all, FileFilter filter){
+		public void addPath(File file, ArrayList<File> all, FileFilter filter){
 			File [] children = file.listFiles();
 			
 			if(children != null){
