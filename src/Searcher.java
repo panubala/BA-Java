@@ -36,6 +36,7 @@ public class Searcher {
 	}
 	
 	public TopDocs search(String searchQuery) throws ParseException, IOException{
+		searchQuery = QueryParser.escape(searchQuery);
 		query = parser.parse(searchQuery);
 		TopDocs topDocs = indexSearcher.search(query, LuceneConstants.MAX_SEARCH);
 		return topDocs;

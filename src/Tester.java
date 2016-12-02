@@ -1,6 +1,10 @@
 
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.Writer;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -29,40 +33,31 @@ public class Tester {
 	
    String indexDir = "/Users/neptun/Desktop/BA/pmc/Index/";
    Searcher searcher;
-   public static int queryID;
+   static Writer output;
    
   
    public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException, ParseException, org.apache.lucene.queryparser.classic.ParseException {
       Tester tester = new Tester();
-      ArrayList <String> query = tester.preprocess("/Users/neptun/Desktop/BA/topics2016.xml", "topic");
-      //tester.sort(query.get(2));
-//      for (int i = 1; i < query.size(); i++) {
-//    	  tester.sort(query.get(i));
-////    	  System.out.println(query.get(i));
-//      }
+      QueryPreprocess queryProcessor = new QueryPreprocess();
+       
+//      FileWriter writer = new FileWriter("/Users/neptun/Desktop/BA/resultFile.txt");
+//      writer.write("");
+//      writer.close();
       
-//      ArrayList <String> query2016 = ReadFiles.readTopic("/Users/neptun/Desktop/BA/topics2016.xml", "topic");
-//      System.out.println(query2016.get(2).replaceAll("[*:,.;#%$!?\\-/\\[\\]]+", ""));
-//      queryID = 1;
-//    
-//      tester.sort(query2016.get(2).replaceAll("[*:,.;#%$!?\\-/\\[\\]]+", ""));
+      output = new BufferedWriter(new FileWriter("/Users/neptun/Desktop/BA/resultFile.txt"));
+      
+      ArrayList <String> query = queryProcessor.read("/Users/neptun/Desktop/BA/topics2016.xml", "topic");
+      for (int i = 1; i < query.size(); i++) {
+    	  tester.find(query.get(i), i);
+      }
+      output.close();
+         		
+   }
+   
 
-      
-    		
-   }
-   
-   public ArrayList <String> preprocess(String path, String key) throws ParserConfigurationException, SAXException, IOException{
-	   ArrayList <String> query = ReadFiles.read(path, key);
-	   
-//	   for (int i = 1; i < query.size(); i++) {
-//		   query.add(i, query.get(i).replaceAll("[*:,.;#%$!?\\-/\\[\\]]+", "")); 
-//	   }
-	   System.out.println(query.size());
-	   return query;
-   }
    
    
-   private void sort(String searchQuery) throws IOException, org.apache.lucene.queryparser.classic.ParseException{
+   private void find(String searchQuery, int queryID) throws IOException, org.apache.lucene.queryparser.classic.ParseException{
       searcher = new Searcher(indexDir, "content");
       long startTime = System.currentTimeMillis();
 
@@ -71,7 +66,7 @@ public class Tester {
       ScoreDoc[] hits = result.scoreDocs;
       long endTime = System.currentTimeMillis();
 
-      System.out.println(hits.length + " documents found. Time :" + (endTime - startTime) + "ms");
+      System.out.println(hits.length + " documents found for Query: "+ Integer.toString(queryID)+"\nTime :" + (endTime - startTime) + "ms");
       ArrayList <String> resultList = new ArrayList<String>();
       int r = 1; 
       for(ScoreDoc scoreDoc : result.scoreDocs) {
@@ -79,10 +74,9 @@ public class Tester {
          Document doc = searcher.getDocument(scoreDoc);
          System.out.print("Score: "+ scoreDoc.score + " ");
          System.out.println("File: "+doc.get("filepath"));
-         //TODO
-         resultList.add(Integer.toString(queryID) + " Q0 " + doc.get("docid")+"  " +Integer.toString(r)+" " +scoreDoc.score + " STANDARD");
-         Path file = Paths.get("/Users/neptun/Desktop/BA/resultFile.txt");
-         Files.write(file, resultList, Charset.forName("UTF-8"));
+         
+         output.append(Integer.toString(queryID) + " Q0 " + doc.get("docid")+"  " +Integer.toString(r)+" " +scoreDoc.score + " STANDARD\n");
+         
          r++;
       }
      
