@@ -67,6 +67,7 @@ public class Tester {
       long endTime = System.currentTimeMillis();
 
       System.out.println(hits.length + " documents found for Query: "+ Integer.toString(queryID)+"\nTime :" + (endTime - startTime) + "ms");
+      //TODO: brauch ich das?
       ArrayList <String> resultList = new ArrayList<String>();
       int r = 1; 
       for(ScoreDoc scoreDoc : result.scoreDocs) {

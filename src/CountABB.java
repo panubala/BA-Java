@@ -1,4 +1,7 @@
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Writer;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,7 +22,6 @@ public class CountABB {
 		
 		ArrayList<String> abbArray = new ArrayList<>();
 		ArrayList<Integer> abbCountArray = new ArrayList<>();
-		//Pair<String, Integer> = 
 				
 		//Grossbuchstaben
 		//Anzahl 575
@@ -57,6 +59,14 @@ public class CountABB {
 			String s2 = m2.group().replaceAll("[\\s,.:?!;]", "");
 			abb = abb +" "+ s2;
 			r++;
+			
+			if (!abbArray.contains(s2)){
+				abbArray.add(s2);
+				abbCountArray.add(1);
+			}else{
+				int index = getIndex(abbArray, s2);
+				abbCountArray.set(index, abbCountArray.get(index) + 1);
+			}
 		
 		}
 		
@@ -70,6 +80,14 @@ public class CountABB {
 			String s3 = m3.group().replaceAll("[\\s,.:?!;]", "");
 			abb = abb +" "+ s3;
 			r++;
+			
+			if (!abbArray.contains(s3)){
+				abbArray.add(s3);
+				abbCountArray.add(1);
+			}else{
+				int index = getIndex(abbArray, s3);
+				abbCountArray.set(index, abbCountArray.get(index) + 1);
+			}
 		}
 		
 		
@@ -83,9 +101,17 @@ public class CountABB {
 			String s4 = m4.group().replaceAll("[\\s,.:?!;0-9]", "");
 			abb = abb +" "+ s4;
 			r++;
+			
+			if (!abbArray.contains(s4)){
+				abbArray.add(s4);
+				abbCountArray.add(1);
+			}else{
+				int index = getIndex(abbArray, s4);
+				abbCountArray.set(index, abbCountArray.get(index) + 1);
+			}
 		}
 		
-		//mg cm
+		//mg cm    mit Zahlen
 		//Anzahl 837
 		Pattern p5 = Pattern.compile("[0-9]+[a-zA-Z]+[\\s,.:?!;]");
 		Matcher m5 = p5.matcher(content);
@@ -94,6 +120,14 @@ public class CountABB {
 			String s5 = m5.group().replaceAll("[\\s,.:?!;0-9]", "");
 			abb = abb +" "+ s5;
 			r++;
+			
+//			if (!abbArray.contains(s5)){
+//				abbArray.add(s5);
+//				abbCountArray.add(1);
+//			}else{
+//				int index = getIndex(abbArray, s5);
+//				abbCountArray.set(index, abbCountArray.get(index) + 1);
+//			}
 		}
 		
 		//zwei Kleinbuchstaben
@@ -109,7 +143,15 @@ public class CountABB {
 			if (!Arrays.asList(blackListTwoLow).contains(s6)){
 					abb = abb +" "+ s6;
 					r++;
-				}
+					
+//					if (!abbArray.contains(s6)){
+//						abbArray.add(s6);
+//						abbCountArray.add(1);
+//					}else{
+//						int index = getIndex(abbArray, s6);
+//						abbCountArray.set(index, abbCountArray.get(index) + 1);
+//					}
+			}
 		}
 		
 		//Gross + Kleinbuchstabe
@@ -122,9 +164,17 @@ public class CountABB {
 		while (m7.find()){
 			String s7 = m7.group().replaceAll("[\\s,.:?!;]", "");
 			if (!Arrays.asList(blackListUpLow).contains(s7)){
-					abb = abb +" "+ s7;
-					r++;
+				abb = abb +" "+ s7;
+				r++;
+//				
+				if (!abbArray.contains(s7)){
+					abbArray.add(s7);
+					abbCountArray.add(1);
+				}else{
+					int index = getIndex(abbArray, s7);
+					abbCountArray.set(index, abbCountArray.get(index) + 1);
 				}
+			}
 		}
 		
 		
@@ -134,6 +184,18 @@ public class CountABB {
 		System.out.println(abbCountArray.toString()+"\n");
 		System.out.println("There are " + Integer.toString(abbArray.size())+" acronyms"+"\n");
 		System.out.println("No of CountArray: "+Integer.toString(abbCountArray.size())+"\n");
+		
+		Writer writer = new BufferedWriter(new FileWriter("/Users/neptun/Desktop/BA/abbFile.txt"));
+		
+		for (int i = 0; i < abbCountArray.size(); i++) {
+			writer.append(abbArray.get(i)+ " " + abbCountArray.get(i) + "\n");
+		}
+		
+		
+		writer.close();
+		
+		
+		
 		
 				
 	}
