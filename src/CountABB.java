@@ -121,13 +121,13 @@ public class CountABB {
 			abb = abb +" "+ s5;
 			r++;
 			
-//			if (!abbArray.contains(s5)){
-//				abbArray.add(s5);
-//				abbCountArray.add(1);
-//			}else{
-//				int index = getIndex(abbArray, s5);
-//				abbCountArray.set(index, abbCountArray.get(index) + 1);
-//			}
+			if (!abbArray.contains(s5)){
+				abbArray.add(s5);
+				abbCountArray.add(1);
+			}else{
+				int index = getIndex(abbArray, s5);
+				abbCountArray.set(index, abbCountArray.get(index) + 1);
+			}
 		}
 		
 		//zwei Kleinbuchstaben
@@ -142,15 +142,18 @@ public class CountABB {
 			String s6 = m6.group().replaceAll("[\\s,.:?!;]", "");
 			if (!Arrays.asList(blackListTwoLow).contains(s6)){
 					abb = abb +" "+ s6;
+					//System.out.println(s6);
 					r++;
 					
-//					if (!abbArray.contains(s6)){
-//						abbArray.add(s6);
-//						abbCountArray.add(1);
-//					}else{
-//						int index = getIndex(abbArray, s6);
-//						abbCountArray.set(index, abbCountArray.get(index) + 1);
-//					}
+					if (!abbArray.contains(s6)){
+						abbArray.add(s6);
+						abbCountArray.add(1);
+						//System.out.println(" New element\n");
+					}else{
+						int index = getIndex(abbArray, s6);
+						abbCountArray.set(index, abbCountArray.get(index) + 1);
+						//System.out.println(" Increased Counter\n" );
+					}
 			}
 		}
 		
@@ -182,10 +185,21 @@ public class CountABB {
 		System.out.println(abb);
 		System.out.println(abbArray.toString()+"\n");
 		System.out.println(abbCountArray.toString()+"\n");
-		System.out.println("There are " + Integer.toString(abbArray.size())+" acronyms"+"\n");
+		System.out.println("There are " + Integer.toString(abbArray.size())+" acronymsn"+"\n");
 		System.out.println("No of CountArray: "+Integer.toString(abbCountArray.size())+"\n");
 		
 		Writer writer = new BufferedWriter(new FileWriter("/Users/neptun/Desktop/BA/abbFile.txt"));
+		
+		Writer writer2 = new BufferedWriter(new FileWriter("/Users/neptun/Desktop/BA/acroyms.txt"));
+		writer2.append(abb);
+		writer2.close();
+		
+		int count = 0;
+		for (int i = 0; i < abbCountArray.size(); i++) {
+			count = count + abbCountArray.get(i);
+		}
+		
+		System.out.println("In Array there are "+ Integer.toString(count) + " elements.\n");
 		
 		for (int i = 0; i < abbCountArray.size(); i++) {
 			writer.append(abbArray.get(i)+ " " + abbCountArray.get(i) + "\n");
@@ -203,7 +217,7 @@ public class CountABB {
 	//Achtung 0!
 	public static int getIndex(ArrayList<String> array, String abb){
 		for (int i = 0; i < array.size() ; i++) {
-			if (abb.contains(array.get(i))){
+			if ((array.get(i).equals(abb))){
 				return i;
 			}
 		}
