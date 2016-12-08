@@ -1,4 +1,5 @@
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
@@ -14,8 +15,12 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.apache.lucene.util.fst.PairOutputs;
 import org.xml.sax.SAXException;
 
-public class CountABB {
+public class CountAbbQuery {
 	public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException{
+		findAbbQuery();
+	}
+	
+	public static void findAbbQuery() throws ParserConfigurationException, SAXException, IOException{
 		QueryPreprocess processor = new QueryPreprocess();
 		String content = processor.readContent("/Users/neptun/Desktop/BA/topics2016.xml");
 		//System.out.println(content);
@@ -181,37 +186,25 @@ public class CountABB {
 		}
 		
 		
-		System.out.println("\nI found " + r +" acronyms:" );
-		System.out.println(abb);
-		System.out.println(abbArray.toString()+"\n");
-		System.out.println(abbCountArray.toString()+"\n");
-		System.out.println("There are " + Integer.toString(abbArray.size())+" acronymsn"+"\n");
-		System.out.println("No of CountArray: "+Integer.toString(abbCountArray.size())+"\n");
+		System.out.println("There are in total " + r +" acronyms." );
+		System.out.println("There are " + Integer.toString(abbArray.size())+" different kind of acronyms."+"\n");
 		
-		Writer writer = new BufferedWriter(new FileWriter("/Users/neptun/Desktop/BA/abbFile.txt"));
+		Writer writer = new BufferedWriter(new FileWriter("/Users/neptun/Desktop/BA/acronymTableQuery.txt"));
 		
-		Writer writer2 = new BufferedWriter(new FileWriter("/Users/neptun/Desktop/BA/acroyms.txt"));
+		Writer writer2 = new BufferedWriter(new FileWriter("/Users/neptun/Desktop/BA/allAcronymsQuery.txt"));
 		writer2.append(abb);
 		writer2.close();
 		
-		int count = 0;
-		for (int i = 0; i < abbCountArray.size(); i++) {
-			count = count + abbCountArray.get(i);
-		}
-		
-		System.out.println("In Array there are "+ Integer.toString(count) + " elements.\n");
-		
+	
 		for (int i = 0; i < abbCountArray.size(); i++) {
 			writer.append(abbArray.get(i)+ " " + abbCountArray.get(i) + "\n");
 		}
 		
-		
 		writer.close();
-		
-		
-		
-		
 				
+		System.out.println("Query has "+Integer.toString(content.length())+ " words.");
+		
+		
 	}
 	
 	//Achtung 0!

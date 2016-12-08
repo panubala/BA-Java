@@ -1,12 +1,15 @@
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -22,7 +25,11 @@ public class Utils {
 	
 	public static void main(String[] args) throws FileNotFoundException, IOException {
 		Utils util = new Utils();
-		System.out.println(util.getTitle("/Users/neptun/Desktop/BA/pmc/pmc-00/00/138682.nxml"));
+		System.out.println(util.getContent("/Users/neptun/Desktop/BA/pmc/pmc-00/00/13901.nxml"));
+		Writer output = new BufferedWriter(new FileWriter("/Users/neptun/Desktop/BA/content_of_13901.txt"));
+		String content = util.getContent("/Users/neptun/Desktop/BA/pmc/pmc-00/00/13901.nxml");
+		output.append(content);
+		output.close();
 	}
 
 	private String content;
@@ -31,7 +38,7 @@ public class Utils {
 	
 	public String getContent(String path) throws FileNotFoundException, IOException{
 		readFile(path);
-		return findTags("<p>", "</p>");
+		return findTags("<p[^>]*>","<[\\s]*/[\\s]*p[\\s]*>" );
 	}
 	
 	
@@ -90,10 +97,15 @@ public class Utils {
 	public String findTags(String firstTag, String lastTag){
 		
 		String text = "";
-		Pattern regex = Pattern.compile(firstTag + "([^<]*)" + lastTag, Pattern.DOTALL);
+		Pattern regex = Pattern.compile(firstTag + ".*" + lastTag, Pattern.DOTALL);
 		Matcher matcher = regex.matcher(content);
 		while (matcher.find()) {
-	        text = text + " "+ matcher.group().replaceAll(firstTag, "").replaceAll(lastTag, "").replaceAll("<[^>]+>", "").replaceAll(">", "");
+	        text = text + " "+ matcher.group()
+	        .replaceAll(firstTag, " ")
+	        .replaceAll(lastTag, " ")
+	        .replaceAll("<[^>]+>", " ")
+	        .replaceAll(">", " ")
+	        .replaceAll("[\\s]{2,}", " ");
 	    }
 		
 		return text;	

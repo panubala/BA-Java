@@ -44,9 +44,9 @@ public class Tester {
 //      writer.write("");
 //      writer.close();
       
-      output = new BufferedWriter(new FileWriter("/Users/neptun/Desktop/BA/resultFile.txt"));
+      output = new BufferedWriter(new FileWriter("/Users/neptun/Desktop/BA/resultFile_note.txt"));
       
-      ArrayList <String> query = queryProcessor.read("/Users/neptun/Desktop/BA/topics2016.xml", "topic");
+      ArrayList <String> query = queryProcessor.read("/Users/neptun/Desktop/BA/topics2016.xml", "note");
       for (int i = 1; i < query.size(); i++) {
     	  tester.find(query.get(i), i);
       }
