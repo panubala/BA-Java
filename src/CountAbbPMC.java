@@ -8,10 +8,23 @@ import java.util.regex.Pattern;
 public class CountAbbPMC {
 	public static void main(String[] args) throws FileNotFoundException, IOException {
 		Utils parser = new Utils();
-		String content = parser.getContent("/Users/neptun/Desktop/BA/pmc/pmc-00/00/13901.nxml");
 		
-		//System.out.println(content);
+		String content = parser.getContent("/Users/neptun/Desktop/BA/pmc/pmc-00/00/13917.nxml");
 		
+//		for (int i = 0; i < 10; i++) {
+//			content = content + parser.getContent("/Users/neptun/Desktop/BA/pmc/pmc-00/0"+i);
+//		}
+//		for (int i = 10; i < 53; i++) {
+//			content = content + parser.getContent("/Users/neptun/Desktop/BA/pmc/pmc-00/"+i);
+//		}
+		CountAbbPMC counter = new CountAbbPMC();
+		ArrayList<String> abbArray = counter.findAllAbb(content);
+		counter.findTheMeaning(content, abbArray);
+	}
+	
+	CountAbbPMC(){}
+	
+	public  ArrayList<String> findAllAbb(String content){
 		ArrayList<String> abbArray = new ArrayList<>();
 		ArrayList<Integer> abbCountArray = new ArrayList<>();
 		
@@ -70,7 +83,7 @@ public class CountAbbPMC {
 		Matcher m4 = p4.matcher(content);
 
 		while (m4.find()){
-			String s4 = m4.group().replaceAll("[\\s,.:?!;0-9]", "");
+			String s4 = m4.group().replaceAll("[\\s\\(\\[,.:?!;0-9]", "");
 			abb = abb +" "+ s4;
 			r++;
 			
@@ -176,8 +189,13 @@ public class CountAbbPMC {
 		System.out.println(abbArray + "\n");
 		System.out.println(abbCountArray + "\n");
 		
-		System.out.println("These are the acronyms: " + abb);
+		System.out.println("These are the acronyms: " + abb + "\n");
+		
+		return abbArray;
+	
 	}
+	
+		
 	
 	//Achtung 0!
 	public static int getIndex(ArrayList<String> array, String abb){
@@ -188,5 +206,67 @@ public class CountAbbPMC {
 		}
 		return 0;
 		
+	}
+	
+	static public int countWords(String str){
+		String trim = str.trim();
+	    if (trim.isEmpty())
+	        return 0;
+	    return trim.split("\\s+").length;
+	}
+	
+	//TODO: Do same with []
+	public void findTheMeaning(String content, ArrayList<String> abbArray) {
+		String abb = "";
+		int r = 0;
+		for (int i = 0; i < abbArray.size(); i++) {
+			abb = abbArray.get(i);
+			Pattern p1 = Pattern.compile("[\\s\\[]{1}"+ abb + "[\\s][\\(][^\\)]+[\\)]");
+			Matcher m1 = p1.matcher(content);
+			String s1 = "";
+			if(m1.find()){
+				s1 = m1.group();
+						//.replaceAll("[0-9\\s,.:?!;\\[\\]]", "");
+			}
+			
+			if (!s1.equals("")) {
+//				if (abb.length() == countWords(s1) -1) {
+//					System.out.println("YES " + s1 + countWords(s1) + "\n");
+//				}else{
+//					System.out.println("NO " + s1 + countWords(s1) + "\n");
+//				}
+				
+				r++;
+				System.out.println("Method 1: " + s1 + countWords(s1) + "\n");
+			}
+
+		}
+		
+		abb = "";
+		int u;
+		for (int j = 0; j < abbArray.size(); j++) {
+			abb = abbArray.get(j);
+			u = abb.length();
+			String regex ="" ;
+			for (int j2 = 0; j2 < u; j2++) {
+				regex = regex + "[A-Za-z]*\\s";
+			}
+			regex = "\\s"+regex;
+			Pattern p2 = Pattern.compile(regex+"[\\(]"+ abb +"[\\)]" );
+			Matcher m2 = p2.matcher(content);
+			String s2 = "";
+			if(m2.find()){
+				s2 = m2.group();
+						//.replaceAll("[0-9\\s,.:?!;\\[\\]]", "");
+			}
+			
+			if (!s2.equals("")) {
+				
+				r++;
+				System.out.println("Method 2: " + s2 + countWords(s2) + "\n");
+			}
+		
+		}
+		System.out.println("I found "+ r + " acronyms.");
 	}
 }

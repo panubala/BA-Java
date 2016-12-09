@@ -97,70 +97,70 @@ public class CountAbbQuery {
 		
 		
 		
-		// mmHg
-		//Anzahl: 728
-		Pattern p4 = Pattern.compile("[\\s0-9]+[a-z]+[A-Z]+[a-z]+[\\s,.:?!;]");
-		Matcher m4 = p4.matcher(content);
-
-		while (m4.find()){
-			String s4 = m4.group().replaceAll("[\\s,.:?!;0-9]", "");
-			abb = abb +" "+ s4;
-			r++;
-			
-			if (!abbArray.contains(s4)){
-				abbArray.add(s4);
-				abbCountArray.add(1);
-			}else{
-				int index = getIndex(abbArray, s4);
-				abbCountArray.set(index, abbCountArray.get(index) + 1);
-			}
-		}
+//		// mmHg
+//		//Anzahl: 728
+//		Pattern p4 = Pattern.compile("[\\s0-9]+[a-z]+[A-Z]+[a-z]+[\\s,.:?!;]");
+//		Matcher m4 = p4.matcher(content);
+//
+//		while (m4.find()){
+//			String s4 = m4.group().replaceAll("[\\s,.:?!;0-9]", "");
+//			abb = abb +" "+ s4;
+//			r++;
+//			
+//			if (!abbArray.contains(s4)){
+//				abbArray.add(s4);
+//				abbCountArray.add(1);
+//			}else{
+//				int index = getIndex(abbArray, s4);
+//				abbCountArray.set(index, abbCountArray.get(index) + 1);
+//			}
+//		}
 		
-		//mg cm    mit Zahlen
-		//Anzahl 837
-		Pattern p5 = Pattern.compile("[0-9]+[a-zA-Z]+[\\s,.:?!;]");
-		Matcher m5 = p5.matcher(content);
-
-		while (m5.find()){
-			String s5 = m5.group().replaceAll("[\\s,.:?!;0-9]", "");
-			abb = abb +" "+ s5;
-			r++;
-			
-			if (!abbArray.contains(s5)){
-				abbArray.add(s5);
-				abbCountArray.add(1);
-			}else{
-				int index = getIndex(abbArray, s5);
-				abbCountArray.set(index, abbCountArray.get(index) + 1);
-			}
-		}
+//		//mg cm    mit Zahlen
+//		//Anzahl 837
+//		Pattern p5 = Pattern.compile("[0-9]+[a-zA-Z]+[\\s,.:?!;]");
+//		Matcher m5 = p5.matcher(content);
+//
+//		while (m5.find()){
+//			String s5 = m5.group().replaceAll("[\\s,.:?!;0-9]", "");
+//			abb = abb +" "+ s5;
+//			r++;
+//			
+//			if (!abbArray.contains(s5)){
+//				abbArray.add(s5);
+//				abbCountArray.add(1);
+//			}else{
+//				int index = getIndex(abbArray, s5);
+//				abbCountArray.set(index, abbCountArray.get(index) + 1);
+//			}
+//		}
 		
-		//zwei Kleinbuchstaben
-		//Anzahl 941
-		Pattern p6 = Pattern.compile("\\s[a-z]{2}[\\s,.:?!;]");
-		Matcher m6 = p6.matcher(content);
-		
-		String[] blackListTwoLow = {"he", "an", "it", "of", "if", "is", "on", "in", "to", "as", "by",
-				"up",  "at" , "or","be","no","so","he\n", "an\n", "it\n", "of\n", "if\n", "is\n", "on\n", 
-				"in\n", "to\n", "as\n", "by\n","up\n",  "at\n",  "or\n","be\n", "no\n","so\n"};
-		while (m6.find()){
-			String s6 = m6.group().replaceAll("[\\s,.:?!;]", "");
-			if (!Arrays.asList(blackListTwoLow).contains(s6)){
-					abb = abb +" "+ s6;
-					//System.out.println(s6);
-					r++;
-					
-					if (!abbArray.contains(s6)){
-						abbArray.add(s6);
-						abbCountArray.add(1);
-						//System.out.println(" New element\n");
-					}else{
-						int index = getIndex(abbArray, s6);
-						abbCountArray.set(index, abbCountArray.get(index) + 1);
-						//System.out.println(" Increased Counter\n" );
-					}
-			}
-		}
+//		//zwei Kleinbuchstaben
+//		//Anzahl 941
+//		Pattern p6 = Pattern.compile("\\s[a-z]{2}[\\s,.:?!;]");
+//		Matcher m6 = p6.matcher(content);
+//		
+//		String[] blackListTwoLow = {"he", "an", "it", "of", "if", "is", "on", "in", "to", "as", "by",
+//				"up",  "at" , "or","be","no","so","he\n", "an\n", "it\n", "of\n", "if\n", "is\n", "on\n", 
+//				"in\n", "to\n", "as\n", "by\n","up\n",  "at\n",  "or\n","be\n", "no\n","so\n"};
+//		while (m6.find()){
+//			String s6 = m6.group().replaceAll("[\\s,.:?!;]", "");
+//			if (!Arrays.asList(blackListTwoLow).contains(s6)){
+//					abb = abb +" "+ s6;
+//					//System.out.println(s6);
+//					r++;
+//					
+//					if (!abbArray.contains(s6)){
+//						abbArray.add(s6);
+//						abbCountArray.add(1);
+//						//System.out.println(" New element\n");
+//					}else{
+//						int index = getIndex(abbArray, s6);
+//						abbCountArray.set(index, abbCountArray.get(index) + 1);
+//						//System.out.println(" Increased Counter\n" );
+//					}
+//			}
+//		}
 		
 		//Gross + Kleinbuchstabe
 		//Anzahl 1026
@@ -188,19 +188,28 @@ public class CountAbbQuery {
 		
 		System.out.println("There are in total " + r +" acronyms." );
 		System.out.println("There are " + Integer.toString(abbArray.size())+" different kind of acronyms."+"\n");
+		System.out.println(abbArray.toString());
 		
-		Writer writer = new BufferedWriter(new FileWriter("/Users/neptun/Desktop/BA/acronymTableQuery.txt"));
+//		Writer writer = new BufferedWriter(new FileWriter("/Users/neptun/Desktop/BA/acronymTableQuery.txt"));
+//		
+//		Writer writer2 = new BufferedWriter(new FileWriter("/Users/neptun/Desktop/BA/allAcronymsQuery.txt"));
+//		writer2.append(abb);
+//		writer2.close();
+//		
+//	
+//		for (int i = 0; i < abbCountArray.size(); i++) {
+//			writer.append(abbArray.get(i)+ " " + abbCountArray.get(i) + "\n");
+//		}
+//		
+//		writer.close();
+		System.out.println(abbArray.size());
+		Writer writer3 = new BufferedWriter(new FileWriter("/Users/neptun/Desktop/BA/acronymMedical.txt"));
 		
-		Writer writer2 = new BufferedWriter(new FileWriter("/Users/neptun/Desktop/BA/allAcronymsQuery.txt"));
-		writer2.append(abb);
-		writer2.close();
-		
-	
-		for (int i = 0; i < abbCountArray.size(); i++) {
-			writer.append(abbArray.get(i)+ " " + abbCountArray.get(i) + "\n");
+		for (int i = 0; i < abbArray.size(); i++) {
+			writer3.append(abbArray.get(i)+"\n");
 		}
 		
-		writer.close();
+		writer3.close();
 				
 		System.out.println("Query has "+Integer.toString(content.length())+ " words.");
 		
