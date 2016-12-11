@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 
 public class CountAbbPMC {
 	public static void main(String[] args) throws FileNotFoundException, IOException {
-		Utils parser = new Utils();
+		UtilsPMC parser = new UtilsPMC();
 		
 		String content = parser.getContent("/Users/neptun/Desktop/BA/pmc/pmc-00/00/13917.nxml");
 		

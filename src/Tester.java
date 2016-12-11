@@ -38,17 +38,13 @@ public class Tester {
   
    public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException, ParseException, org.apache.lucene.queryparser.classic.ParseException {
       Tester tester = new Tester();
-      QueryPreprocess queryProcessor = new QueryPreprocess();
-       
-//      FileWriter writer = new FileWriter("/Users/neptun/Desktop/BA/resultFile.txt");
-//      writer.write("");
-//      writer.close();
+      UtilsQuery queryProcessor = new UtilsQuery();
       
-      output = new BufferedWriter(new FileWriter("/Users/neptun/Desktop/BA/resultFile_note.txt"));
+      output = new BufferedWriter(new FileWriter("/Users/neptun/Desktop/BA/resultFile_description.txt"));
       
-      ArrayList <String> query = queryProcessor.read("/Users/neptun/Desktop/BA/topics2016.xml", "note");
+      ArrayList <String> query = queryProcessor.read("/Users/neptun/Desktop/BA/topics2016.xml", "description");
       for (int i = 1; i < query.size(); i++) {
-    	  tester.find(query.get(i), i);
+    	  tester.findQuery(query.get(i), i);
       }
       output.close();
          		
@@ -56,8 +52,7 @@ public class Tester {
    
 
    
-   
-   private void find(String searchQuery, int queryID) throws IOException, org.apache.lucene.queryparser.classic.ParseException{
+   private void findQuery(String searchQuery, int queryID) throws IOException, org.apache.lucene.queryparser.classic.ParseException{
       searcher = new Searcher(indexDir, "content");
       long startTime = System.currentTimeMillis();
 
@@ -67,8 +62,7 @@ public class Tester {
       long endTime = System.currentTimeMillis();
 
       System.out.println(hits.length + " documents found for Query: "+ Integer.toString(queryID)+"\nTime :" + (endTime - startTime) + "ms");
-      //TODO: brauch ich das?
-      ArrayList <String> resultList = new ArrayList<String>();
+
       int r = 1; 
       for(ScoreDoc scoreDoc : result.scoreDocs) {
     	  

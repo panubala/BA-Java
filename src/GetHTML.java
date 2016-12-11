@@ -22,9 +22,9 @@ public class GetHTML {
 		
 		//184
 		int r = 0;
-		for (int i = 184; i < acronyms.size(); i++) {
+		for (int i = 0; i < acronyms.size(); i++) {
 			create(acronyms.get(i));
-			TimeUnit.SECONDS.sleep(2);
+			//TimeUnit.SECONDS.sleep(2);
 			System.out.println(r);
 			r++;
 		}
@@ -36,10 +36,25 @@ public class GetHTML {
 	}
 	
 	private static void create(String abb) throws IOException {
-		String html = getUrlSource("https://www.allacronyms.com/_medical/" + abb);
-		createFile(html, "/Users/neptun/Desktop/BA/abbreviations/xml/"+ abb +".xml");
-		//createFileAbb(html,"/Users/neptun/Desktop/BA/abbreviations/abb/" + abb +".xml");
+		//String html = getUrlSource("https://www.allacronyms.com/_medical/" + abb);
+		String abb2 = abb.replaceAll("/", "_");
+		String html = readDoc(abb2);
+		//createFile(html, "/Users/neptun/Desktop/BA/abbreviations/xml/"+ abb2 +".xml");
+		createFileAbb(html,"/Users/neptun/Desktop/BA/abbreviations/abb/" + abb2 +".txt");
 
+	}
+	
+	private static String readDoc(String abb2) throws IOException {
+		BufferedReader br= new BufferedReader(new FileReader("/Users/neptun/Desktop/BA/abbreviations/xml/" + abb2 +".xml"));
+		String text = "";
+		String line = br.readLine();
+		while(line!=null){
+			text = text + line;
+			line = br.readLine();
+		}
+		br.close();
+		
+		return text;
 	}
 	
 	private static ArrayList<String> createAbbArray() throws IOException {

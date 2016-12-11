@@ -94,13 +94,6 @@ public class Indexer {
 			filepaths = fileSys.addDir(new File("/Users/neptun/Desktop/BA/pmc/pmc-03/"+i), fileFilter);
 		}
 		
-		
-//		for(int i = 0; i < filepaths.size(); i++) {   
-//		    System.out.print(filepaths.get(i)+"\n" );
-//		} 
-//		
-//		System.out.println("Total number:" + filepaths.size());
-		
 		return filepaths;
 	} 
 	 
@@ -120,7 +113,7 @@ public class Indexer {
 	
 	private Document getDocument(File file) throws IOException, ParserConfigurationException, SAXException, FileSystemException{
 		System.out.println("Indexing File: " + file.toString());
-		Utils parser = new Utils();
+		UtilsPMC parser = new UtilsPMC();
 		
 		String content =  parser.getContent(file.getPath());		
 		String title=  parser.getTitle(file.getPath());

@@ -1,45 +1,27 @@
 import javax.xml.parsers.DocumentBuilder; 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.stream.StreamSource;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.w3c.dom.Node;
-import org.w3c.dom.Element;
-import org.xml.*;
-
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.io.StringReader;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.util.ArrayList;
 
-import com.sun.org.apache.xerces.internal.parsers.*;
-
-public class QueryPreprocess {
+public class UtilsQuery {
 	
 
 		
 	public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException {
-		QueryPreprocess query = new QueryPreprocess();
+		UtilsQuery query = new UtilsQuery();
 		System.out.println(query.read("/Users/neptun/Desktop/BA/topics2016.xml", "note").get(1));
 	}
 	
-	public QueryPreprocess(){}
+	public UtilsQuery(){}
 	
 	
-	//Array starts at 1
 	//key = topic, note, summary, description
-	//replaces these characters *:,.;#%$!?\-/[]+  from the query
 	public ArrayList<String> read(String input, String key) throws ParserConfigurationException, SAXException, IOException{
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
@@ -55,7 +37,6 @@ public class QueryPreprocess {
 		for(int temp = 0; temp < nList.getLength(); temp++){
 			Node nNode = nList.item(temp);
 			 output.add(nNode.getTextContent());
-					 //replaceAll("[~*:;#%$!?\\-/\\[\\]']+", "").replaceAll("\"", "")
 		}
 		return output;	
 	}

@@ -1,30 +1,19 @@
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.Writer;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.xml.sax.SAXException;
-
-public class Utils {
+public class UtilsPMC {
 	
 	public static void main(String[] args) throws FileNotFoundException, IOException {
-		Utils util = new Utils();
+		UtilsPMC util = new UtilsPMC();
 		System.out.println(util.getContent("/Users/neptun/Desktop/BA/pmc/pmc-00/00/13901.nxml"));
 		Writer output = new BufferedWriter(new FileWriter("/Users/neptun/Desktop/BA/content_of_13901.txt"));
 		String content = util.getContent("/Users/neptun/Desktop/BA/pmc/pmc-00/00/13901.nxml");
@@ -34,7 +23,7 @@ public class Utils {
 
 	private String content;
 	
-	Utils(){}
+	UtilsPMC(){}
 	
 	public String getContent(String path) throws FileNotFoundException, IOException{
 		readFile(path);
