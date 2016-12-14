@@ -1,12 +1,26 @@
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.xml.sax.SAXException;
+
 public class ReplaceQuery {
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException, ParserConfigurationException, SAXException {
+		
+		Writer output = new BufferedWriter(new FileWriter("/Users/neptun/Desktop/BA/replaced_Text.txt"));
+		output.append(replace().toString());
+		output.close();
+	}
+	
+	public static ArrayList <String> replace() throws IOException, ParserConfigurationException, SAXException {
 		ArrayList<String> acronyms = read();
 		ArrayList<Tuple> list = new ArrayList<>();
 		
@@ -14,10 +28,8 @@ public class ReplaceQuery {
 		String abb1;
 
 		for (int i = 0; i < acronyms.size(); i++) {
-			
-			System.out.println(i);
 			abb = acronyms.get(i);
-			System.out.println(abb);
+			
 			abb1 = abb.replaceAll("/", "_");
 			
 			File file = new File("/Users/neptun/Desktop/BA/abbreviations/abb/" + abb1 +".txt");
@@ -33,8 +45,7 @@ public class ReplaceQuery {
 				String longForm = "";
 				
 				while(line!=null ){
-					
-					System.out.println("ok");
+				
 					String arr1 [] = line.split(" ", 2);
 					int tempRank= Integer.parseInt(arr1 [0]);
 					if (tempRank > rank){
@@ -52,9 +63,31 @@ public class ReplaceQuery {
 			
 			
 		}
+		for (int i = 0; i < list.size(); i++) {
+//			System.out.println(list.get(i).abb + " " + list.get(i).longForm);
+		}
 		
-		System.out.println(list.toString());
+		UtilsQuery processor = new UtilsQuery();
+		String query = processor.readContent("/Users/neptun/Desktop/BA/topics2016.xml");
 		
+		ArrayList <String> query1 = processor.read("/Users/neptun/Desktop/BA/topics2016.xml", "note");
+		//System.out.println(query1.toString());
+		
+		for (int j = 0; j < query1.size(); j++) {
+			
+		
+			for (int i = 0; i < list.size(); i++) {
+			
+			String replaced = query1.get(j).replaceAll("[\\s\\[(]{1}"+list.get(i).abb + "[\\s\\]),;]{1}", " "+list.get(i).abb+list.get(i).longForm + " " );
+			query1.set(j, replaced);
+			
+			}
+			
+		}
+		
+//		System.out.println(query1.get(1));
+		
+		return query1;
 	}
 	
 	public static ArrayList<String> read() throws IOException {

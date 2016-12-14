@@ -40,9 +40,14 @@ public class Tester {
       Tester tester = new Tester();
       UtilsQuery queryProcessor = new UtilsQuery();
       
-      output = new BufferedWriter(new FileWriter("/Users/neptun/Desktop/BA/resultFile_description.txt"));
+      output = new BufferedWriter(new FileWriter("/Users/neptun/Desktop/BA/resultFile_Replace.txt"));
       
-      ArrayList <String> query = queryProcessor.read("/Users/neptun/Desktop/BA/topics2016.xml", "description");
+//      ArrayList <String> query = queryProcessor.read("/Users/neptun/Desktop/BA/topics2016.xml", "description");
+      
+      ReplaceQuery rQuery = new ReplaceQuery();
+      
+      ArrayList<String> query = rQuery.replace();
+      
       for (int i = 1; i < query.size(); i++) {
     	  tester.findQuery(query.get(i), i);
       }
