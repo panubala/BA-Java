@@ -9,7 +9,7 @@ public class CountAbbPMC {
 	public static void main(String[] args) throws FileNotFoundException, IOException {
 		UtilsPMC parser = new UtilsPMC();
 		
-		String content = parser.getContent("/Users/neptun/Desktop/BA/pmc/pmc-00/00/13917.nxml");
+		String content = parser.getContent("/Users/panuyabalasuntharam/Documents/BA/pmc/pmc-00/00/13917.nxml");
 		
 //		for (int i = 0; i < 10; i++) {
 //			content = content + parser.getContent("/Users/neptun/Desktop/BA/pmc/pmc-00/0"+i);

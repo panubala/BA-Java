@@ -31,7 +31,7 @@ import org.xml.sax.SAXException;
 
 public class Tester {
 	
-   String indexDir = "/Users/neptun/Desktop/BA/pmc/Index/";
+   String indexDir = "/Users/panuyabalasuntharam/Documents/BA/pmc/Index/";
    Searcher searcher;
    static Writer output;
    
@@ -40,13 +40,12 @@ public class Tester {
       Tester tester = new Tester();
       UtilsQuery queryProcessor = new UtilsQuery();
       
-      output = new BufferedWriter(new FileWriter("/Users/neptun/Desktop/BA/resultFile_Replace.txt"));
+      output = new BufferedWriter(new FileWriter("/Users/panuyabalasuntharam/Documents/BA/resultFile_added_note6.txt"));
       
-//      ArrayList <String> query = queryProcessor.read("/Users/neptun/Desktop/BA/topics2016.xml", "description");
+      ArrayList <String> query = queryProcessor.read("/Users/panuyabalasuntharam/Documents/BA/topics2016.xml", "note");
       
-      ReplaceQuery rQuery = new ReplaceQuery();
       
-      ArrayList<String> query = rQuery.replace();
+//      ArrayList<String> query = ReplaceQuery.replace("note");
       
       for (int i = 1; i < query.size(); i++) {
     	  tester.findQuery(query.get(i), i);
@@ -62,7 +61,7 @@ public class Tester {
       long startTime = System.currentTimeMillis();
 
 
-      TopDocs result = searcher.search(searchQuery);
+      TopDocs result = searcher.search2(searchQuery);
       ScoreDoc[] hits = result.scoreDocs;
       long endTime = System.currentTimeMillis();
 
@@ -75,7 +74,11 @@ public class Tester {
          System.out.print("Score: "+ scoreDoc.score + " ");
          System.out.println("File: "+doc.get("filepath"));
          
-         output.append(Integer.toString(queryID) + " Q0 " + doc.get("docid")+"  " +Integer.toString(r)+" " +scoreDoc.score + " STANDARD\n");
+         String [] temp = doc.get("docid").split(" ");
+         String docid = temp[2];
+       
+         
+         output.append(Integer.toString(queryID) + " Q0 " + docid +"  " +Integer.toString(r)+" " +scoreDoc.score + " STANDARD\n");
          
          r++;
       }

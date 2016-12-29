@@ -14,11 +14,8 @@ public class UtilsPMC {
 	
 	public static void main(String[] args) throws FileNotFoundException, IOException {
 		UtilsPMC util = new UtilsPMC();
-		System.out.println(util.getContent("/Users/neptun/Desktop/BA/pmc/pmc-00/00/13901.nxml"));
-		Writer output = new BufferedWriter(new FileWriter("/Users/neptun/Desktop/BA/content_of_13901.txt"));
-		String content = util.getContent("/Users/neptun/Desktop/BA/pmc/pmc-00/00/13901.nxml");
-		output.append(content);
-		output.close();
+		System.out.println(util.getdocID("/Users/panuyabalasuntharam/Documents/BA/pmc/pmc-00/00/13901.nxml"));
+		
 	}
 
 	private String content;
@@ -86,7 +83,7 @@ public class UtilsPMC {
 	public String findTags(String firstTag, String lastTag){
 		
 		String text = "";
-		Pattern regex = Pattern.compile(firstTag + ".*" + lastTag, Pattern.DOTALL);
+		Pattern regex = Pattern.compile(firstTag + "([^<]*)" + lastTag, Pattern.DOTALL);
 		Matcher matcher = regex.matcher(content);
 		while (matcher.find()) {
 	        text = text + " "+ matcher.group()

@@ -5,7 +5,11 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 import org.w3c.dom.Node;
+
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -32,7 +36,9 @@ public class UtilsQuery {
 		
 		ArrayList <String> output = new ArrayList<String>();
 		NodeList nList = doc.getElementsByTagName(key);
-		output.add("There is no content.");
+		
+		// Keep the first empty. Otherwise would have a problem with indexing.
+		output.add("**********");
 		
 		for(int temp = 0; temp < nList.getLength(); temp++){
 			Node nNode = nList.item(temp);
@@ -73,7 +79,18 @@ public class UtilsQuery {
 	
 
 
-
+	public ArrayList<String> createAbbArray() throws IOException{
+		BufferedReader br= new BufferedReader(new FileReader("/Users/panuyabalasuntharam/Documents/BA/acronymMedical.txt"));
+		ArrayList<String> acronyms = new ArrayList<>();
+		String line = br.readLine();
+		while(line!=null){
+			acronyms.add(line);
+			line = br.readLine();
+		}
+		
+		br.close();
+		return acronyms;
+	}
 
 	
 }

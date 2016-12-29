@@ -28,9 +28,7 @@ public class GetHTML {
 			System.out.println(r);
 			r++;
 		}
-		
-		
-		
+				
 		
 		
 	}
@@ -65,8 +63,10 @@ public class GetHTML {
 			acronyms.add(line);
 			line = br.readLine();
 		}
-		
+		br.close();
 		return acronyms;
+		
+		
 	}
 	
 	private static String getUrlSource(String url) throws IOException{

@@ -37,7 +37,7 @@ public class CountAbbQuery {
 	public void findAbbQuery() throws ParserConfigurationException, SAXException, IOException{
 
 		UtilsQuery processor = new UtilsQuery();
-		content = processor.readContent("/Users/neptun/Desktop/BA/topics2016.xml");
+		content = processor.readContent("/Users/panuyabalasuntharam/Documents/BA/topics2016.xml");
 		
 
 		this.upper();
@@ -65,14 +65,14 @@ public class CountAbbQuery {
 //		}
 //		
 //		writer.close();
-		System.out.println(abbArray.size());
-		Writer writer3 = new BufferedWriter(new FileWriter("/Users/neptun/Desktop/BA/acronymMedical.txt"));
-		
-		for (int i = 0; i < abbArray.size(); i++) {
-			writer3.append(abbArray.get(i)+"\n");
-		}
-		
-		writer3.close();
+//		System.out.println(abbArray.size());
+//		Writer writer3 = new BufferedWriter(new FileWriter("/Users/neptun/Desktop/BA/acronymMedical.txt"));
+//		
+//		for (int i = 0; i < abbArray.size(); i++) {
+//			writer3.append(abbArray.get(i)+"\n");
+//		}
+//		
+//		writer3.close();
 				
 		System.out.println("Query has "+Integer.toString(content.length())+ " words.");
 		
