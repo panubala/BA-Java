@@ -26,7 +26,7 @@ public class UtilsQuery {
 	
 	
 	//key = topic, note, summary, description
-	public ArrayList<String> read(String input, String key) throws ParserConfigurationException, SAXException, IOException{
+	public static ArrayList<String> read(String input, String key) throws ParserConfigurationException, SAXException, IOException{
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 		
@@ -47,7 +47,7 @@ public class UtilsQuery {
 		return output;	
 	}
 	
-
+	//We don't need this anymore
 	public String readContent(String input) throws ParserConfigurationException, SAXException, IOException{
 		
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -78,8 +78,8 @@ public class UtilsQuery {
 	}
 	
 
-
-	public ArrayList<String> createAbbArray() throws IOException{
+	//Creates an array of Medical Acronym
+	public static ArrayList<String> createAbbArray() throws IOException{
 		BufferedReader br= new BufferedReader(new FileReader("/Users/panuyabalasuntharam/Documents/BA/acronymMedical.txt"));
 		ArrayList<String> acronyms = new ArrayList<>();
 		String line = br.readLine();

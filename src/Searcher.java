@@ -20,6 +20,8 @@ import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.queryparser.classic.QueryParser;
+import org.apache.lucene.search.BooleanQuery;
+import org.apache.lucene.search.BoostQuery;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
@@ -57,7 +59,9 @@ public class Searcher {
 
 	}
 	
+	//This is the normal search. Don't change it.
 	public TopDocs search(String searchQuery) throws ParseException, IOException{
+		//We need this for weird characters
 		searchQuery = QueryParser.escape(searchQuery);
 		query = parser.parse(searchQuery);
 		
@@ -65,11 +69,23 @@ public class Searcher {
 		return topDocs;
 	}
 	
+	//TODO: Take all longForms into query and give it weights
 	public TopDocs search2(String searchQuery) throws ParseException, IOException{
 		String longForm = giveAllLongForm(searchQuery);
-		searchQuery = QueryParser.escape(searchQuery + longForm);
-//		TermQuery query1 = new TermQuery(new Term (searchQuery + giveAllLongForm(searchQuery)));
-		query = parser.parse(searchQuery);
+		
+		Query sQuery, aQuery;
+		
+		searchQuery = QueryParser.escape(searchQuery);
+		sQuery = parser.parse(searchQuery);
+		sQuery = new BoostQuery(sQuery, 1f);
+		
+		
+		longForm = QueryParser.escape(longForm);
+		aQuery = parser.parse(longForm);
+		aQuery = new BoostQuery(aQuery, 0.2f);
+		
+		
+		//BooleanQuery bQuery = new BooleanQuery(false, 0, null);
 		
 		TopDocs topDocs = indexSearcher.search(query, LuceneConstants.MAX_SEARCH);
 		return topDocs;
@@ -93,6 +109,7 @@ public class Searcher {
 		reader.close();	
 	}
 	
+	//This gives a list with all acronyms from the query
 	public static ArrayList<String> giveAllAcronymsOfTheQuery(String query) throws IOException {
 		UtilsQuery utils = new UtilsQuery();
 		ArrayList<String> acronymList  = utils.createAbbArray();
@@ -107,10 +124,9 @@ public class Searcher {
 		return acronymsOfQuery;
 	}
 	
+	//This gives a String with all longForm
 	public static String giveAllLongForm(String query) throws IOException {
 		ArrayList<String> acronymsOfQuery = giveAllAcronymsOfTheQuery(query);
-		
-		
 		
 		String addQuery = "";
 		String abb;
@@ -129,14 +145,14 @@ public class Searcher {
 				
 				while(line!=null && r<5 ){
 					
+					//We don't want the ranking
 					String arr1 [] = line.split(" ",2);
 					addQuery = addQuery + " " + arr1[1] ;
 					line= br1.readLine();
 					r++;
 				}
 				br1.close();
-				
-				
+
 			}
 			
 		}
