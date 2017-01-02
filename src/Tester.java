@@ -34,23 +34,27 @@ public class Tester {
    String indexDir = "/Users/panuyabalasuntharam/Documents/BA/pmc/Index/";
    Searcher searcher;
    static Writer output;
+   static Writer output2;
    
   
    public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException, ParseException, org.apache.lucene.queryparser.classic.ParseException {
       Tester tester = new Tester();
       UtilsQuery queryProcessor = new UtilsQuery();
       
-      output = new BufferedWriter(new FileWriter("/Users/panuyabalasuntharam/Documents/BA/resultFile_added_summary7.txt"));
+      output = new BufferedWriter(new FileWriter("/Users/panuyabalasuntharam/Documents/BA/resultFile_added_noteTest.txt"));
+      output2 = new BufferedWriter(new FileWriter("/Users/panuyabalasuntharam/Documents/BA/filePathList.txt"));
+     
       
-//      ArrayList <String> query = queryProcessor.read("/Users/panuyabalasuntharam/Documents/BA/topics2016.xml", "description");
+      ArrayList <String> query = queryProcessor.read("/Users/panuyabalasuntharam/Documents/BA/topics2016.xml", "note");
       
       
-      ArrayList<String> query = ReplaceQuery.replace("summary");
+//      ArrayList<String> query = ReplaceQuery.replace("note");
       
       for (int i = 1; i < query.size(); i++) {
     	  tester.findQuery(query.get(i), i);
       }
       output.close();
+      output2.close();
          		
    }
    
@@ -68,19 +72,24 @@ public class Tester {
       long endTime = System.currentTimeMillis();
 
       System.out.println(hits.length + " documents found for Query: "+ Integer.toString(queryID)+"\nTime :" + (endTime - startTime) + "ms");
-
+      
+      ArrayList <Tuple> filePaths = new ArrayList<>();
+      
       int r = 1; 
       for(ScoreDoc scoreDoc : result.scoreDocs) {
     	  
          Document doc = searcher.getDocument(scoreDoc);
          System.out.print("Score: "+ scoreDoc.score + " ");
          System.out.println("File: "+doc.get("filepath"));
+         //filePaths.add(new Tuple(queryID, doc.get("filepath")));
          
          String [] temp = doc.get("docid").split(" ");
          String docid = temp[2];
        
          
          output.append(Integer.toString(queryID) + " Q0 " + docid +"  " +Integer.toString(r)+" " +scoreDoc.score + " STANDARD\n");
+         
+         output2.append(Integer.toString(queryID) + " " + doc.get("filepath") + "\n");
          
          r++;
       }

@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 
 public class Tuple {
 	Tuple(String abb, String longForm, int index, int rank ){
@@ -20,6 +21,19 @@ public class Tuple {
 		this.index = index;
 	}
 	
+	Tuple(int queryNo, String filePath){
+		this.queryNo = queryNo;
+		this.filePath = filePath;
+	}
+	
+	Tuple(int queryNo, ArrayList <String> list){
+		this.queryNo = queryNo;
+		this.list = list;
+	}
+	
+	ArrayList <String> list;
+	String filePath;
+	int queryNo;
 	String abb;
 	String longForm;
 	String longForm2;

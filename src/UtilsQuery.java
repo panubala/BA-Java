@@ -7,10 +7,13 @@ import org.xml.sax.SAXException;
 import org.w3c.dom.Node;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Writer;
 import java.util.ArrayList;
 
 public class UtilsQuery {
@@ -108,19 +111,34 @@ public class UtilsQuery {
 		return acronymsOfQuery;
 	}
 	
-	public void giveAllAcronymList(String path, String key) throws ParserConfigurationException, SAXException, IOException {
+	public ArrayList <Tuple> giveAllAcronymList(String path, String key) throws ParserConfigurationException, SAXException, IOException {
 		UtilsQuery query = new UtilsQuery();
 		ArrayList <String> allQuery = query.read(path, key);
+		
+		ArrayList <Tuple> acronyms = new ArrayList<>();
+		
+//		Writer output = new BufferedWriter(new FileWriter("/Users/panuyabalasuntharam/Documents/BA/acronymList_note.txt"));
 		
 		int size = 0; 
 		
 		for (int i = 0; i < allQuery.size(); i++) {
 			ArrayList <String> acronymList = giveAllAcronymsOfTheQuery(allQuery.get(i));
 			size = size + acronymList.size();
-			System.out.println("Query "+Integer.toString(i)+": " + acronymList.toString());
+//			System.out.println("Query "+Integer.toString(i)+": " + acronymList.toString());
+			
+			acronyms.add(new Tuple(i, acronymList));
+			
+//			output.append("Query "+Integer.toString(i)+": " + acronymList.toString()
+//																		.replaceAll("\\[", "")
+//																		.replaceAll("\\]", "")
+//																		.replaceAll(",", "") + "\n");
 		}
 		
-		System.out.println("\n" + Integer.toString(size));
+//		output.close();
+		
+//		System.out.println("\n" + Integer.toString(size));
+		
+		return acronyms;
 	}
 	
 	
