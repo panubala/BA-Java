@@ -40,12 +40,12 @@ public class Tester {
       Tester tester = new Tester();
       UtilsQuery queryProcessor = new UtilsQuery();
       
-      output = new BufferedWriter(new FileWriter("/Users/panuyabalasuntharam/Documents/BA/resultFile_added_note6.txt"));
+      output = new BufferedWriter(new FileWriter("/Users/panuyabalasuntharam/Documents/BA/resultFile_added_summary7.txt"));
       
-      ArrayList <String> query = queryProcessor.read("/Users/panuyabalasuntharam/Documents/BA/topics2016.xml", "note");
+//      ArrayList <String> query = queryProcessor.read("/Users/panuyabalasuntharam/Documents/BA/topics2016.xml", "description");
       
       
-//      ArrayList<String> query = ReplaceQuery.replace("note");
+      ArrayList<String> query = ReplaceQuery.replace("summary");
       
       for (int i = 1; i < query.size(); i++) {
     	  tester.findQuery(query.get(i), i);
@@ -54,14 +54,16 @@ public class Tester {
          		
    }
    
+   
+   
 
    
    private void findQuery(String searchQuery, int queryID) throws IOException, org.apache.lucene.queryparser.classic.ParseException{
       searcher = new Searcher(indexDir, "content");
       long startTime = System.currentTimeMillis();
 
-
-      TopDocs result = searcher.search2(searchQuery);
+      //TopDocs result = searcher.search2(searchQuery);
+      TopDocs result = searcher.search(searchQuery);
       ScoreDoc[] hits = result.scoreDocs;
       long endTime = System.currentTimeMillis();
 

@@ -20,7 +20,10 @@ import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.queryparser.classic.QueryParser;
+import org.apache.lucene.search.BooleanClause;
+import org.apache.lucene.search.BooleanClause.Occur;
 import org.apache.lucene.search.BooleanQuery;
+import org.apache.lucene.search.BooleanQuery.Builder;
 import org.apache.lucene.search.BoostQuery;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
@@ -79,15 +82,18 @@ public class Searcher {
 		sQuery = parser.parse(searchQuery);
 		sQuery = new BoostQuery(sQuery, 1f);
 		
+		Builder bQuery = new BooleanQuery.Builder()
+				.add(sQuery, BooleanClause.Occur.SHOULD);
+				
+		if (longForm != "") {
+			longForm = QueryParser.escape(longForm);
+			aQuery = parser.parse(longForm);
+			aQuery = new BoostQuery(aQuery, 0.2f);
+			bQuery.add(aQuery, BooleanClause.Occur.SHOULD);
+		}
 		
-		longForm = QueryParser.escape(longForm);
-		aQuery = parser.parse(longForm);
-		aQuery = new BoostQuery(aQuery, 0.2f);
 		
-		
-		//BooleanQuery bQuery = new BooleanQuery(false, 0, null);
-		
-		TopDocs topDocs = indexSearcher.search(query, LuceneConstants.MAX_SEARCH);
+		TopDocs topDocs = indexSearcher.search(bQuery.build(), LuceneConstants.MAX_SEARCH);
 		return topDocs;
 	}
 	

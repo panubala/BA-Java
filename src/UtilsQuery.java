@@ -19,7 +19,8 @@ public class UtilsQuery {
 		
 	public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException {
 		UtilsQuery query = new UtilsQuery();
-		System.out.println(query.read("/Users/neptun/Desktop/BA/topics2016.xml", "note").get(1));
+		query.giveAllAcronymList("/Users/panuyabalasuntharam/Documents/BA/topics2016.xml", "note");
+//		query.giveAllLongForm("/Users/panuyabalasuntharam/Documents/BA/topics2016.xml", "description");
 	}
 	
 	public UtilsQuery(){}
@@ -92,5 +93,87 @@ public class UtilsQuery {
 		return acronyms;
 	}
 
+	//This gives a list with all acronyms from the query
+	public static ArrayList<String> giveAllAcronymsOfTheQuery(String query) throws IOException {
+		UtilsQuery utils = new UtilsQuery();
+		ArrayList<String> acronymList  = utils.createAbbArray();
+		ArrayList<String> acronymsOfQuery = new ArrayList<>();
+		
+		for (int i = 0; i < acronymList.size(); i++) {
+			if (query.contains(acronymList.get(i))){
+				acronymsOfQuery.add(acronymList.get(i));
+			}
+		}
+		
+		return acronymsOfQuery;
+	}
 	
+	public void giveAllAcronymList(String path, String key) throws ParserConfigurationException, SAXException, IOException {
+		UtilsQuery query = new UtilsQuery();
+		ArrayList <String> allQuery = query.read(path, key);
+		
+		int size = 0; 
+		
+		for (int i = 0; i < allQuery.size(); i++) {
+			ArrayList <String> acronymList = giveAllAcronymsOfTheQuery(allQuery.get(i));
+			size = size + acronymList.size();
+			System.out.println("Query "+Integer.toString(i)+": " + acronymList.toString());
+		}
+		
+		System.out.println("\n" + Integer.toString(size));
+	}
+	
+	
+	public static String giveAllLongFormOfTheQuery(String query) throws IOException {
+		ArrayList<String> acronymsOfQuery = giveAllAcronymsOfTheQuery(query);
+		
+		String addQuery = "";
+		String abb;
+		String abbReplaced;
+		
+		for (int i = 0; i < acronymsOfQuery.size(); i++) {
+			 abb = acronymsOfQuery.get(i);
+			 abbReplaced = abb.replaceAll("/", "_");
+			 
+			 File file = new File("/Users/panuyabalasuntharam/Documents/BA/abbreviations/abb/" + abbReplaced +".txt");
+			if (file.exists()){
+				BufferedReader br1= new BufferedReader(new FileReader("/Users/panuyabalasuntharam/Documents/BA/abbreviations/abb/" + abbReplaced +".txt"));	
+				String line = br1.readLine();
+				
+				int r = 0;
+				
+				while(line!=null && r<5 ){
+					
+					//We don't want the ranking
+					String arr1 [] = line.split(" ",2);
+					addQuery = addQuery + " " + arr1[1] ;
+					line= br1.readLine();
+					r++;
+				}
+				br1.close();
+
+			}
+			
+		}
+		
+		return addQuery;
+	
+	}
+
+	public void giveAllLongForm(String path, String key) throws ParserConfigurationException, SAXException, IOException{
+		UtilsQuery query = new UtilsQuery();
+		ArrayList <String> allQuery = query.read(path, key);
+		
+		int size = 0; 
+		
+		String longForm = "";
+		
+		for (int i = 0; i < allQuery.size(); i++) {
+			longForm = longForm + giveAllLongFormOfTheQuery(allQuery.get(i));
+			
+		}
+		System.out.println(longForm);
+		
+	}
+
 }
