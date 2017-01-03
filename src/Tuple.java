@@ -31,6 +31,11 @@ public class Tuple {
 		this.list = list;
 	}
 	
+	Tuple(String acr, ArrayList <String> list){
+		this.acr = acr;
+		this.list = list;
+	}
+	
 	ArrayList <String> list;
 	String filePath;
 	int queryNo;
@@ -39,5 +44,6 @@ public class Tuple {
 	String longForm2;
 	int index;
 	int rank;
+	String acr;
 
 }
