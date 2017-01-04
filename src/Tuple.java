@@ -44,6 +44,5 @@ public class Tuple {
 	String longForm2;
 	int index;
 	int rank;
-	String acr;
 
 }
