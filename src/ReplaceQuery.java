@@ -18,7 +18,9 @@ import org.xml.sax.SAXException;
 public class ReplaceQuery {
 	public static void main(String[] args) throws IOException, ParserConfigurationException, SAXException {
 		
-		replace("description");
+//		replace("description");
+		
+		deleteRank();
 		
 //		findLongForm();
 //		findLongFormComparison();
@@ -33,12 +35,12 @@ public class ReplaceQuery {
 	
 	public static ArrayList <String> replace(String key) throws IOException, ParserConfigurationException, SAXException {
 		
-		ArrayList <Tuple> acronymList=findLongForm();
+		ArrayList <Tuple> acronymList=findLongForm2();
 		
 		
 		ArrayList <String> query = UtilsQuery.read("/Users/panuyabalasuntharam/Documents/BA/topics2016.xml", key);
 		
-		ArrayList <Boolean> resList = compareResult(key, "2", "3");
+//		ArrayList <Boolean> resList = compareResult(key, "2", "3");
 		
 		
 		
@@ -134,6 +136,56 @@ public class ReplaceQuery {
 			
 			
 		}
+	
+	public static void deleteRank() throws IOException, ParserConfigurationException, SAXException {
+		
+		ArrayList<String> acronyms = UtilsQuery.createAbbArray();
+		ArrayList<Tuple> list = new ArrayList<>();
+		
+		String abb;
+		String abbReplaced;
+
+		for (int i = 0; i < acronyms.size(); i++) {
+			abb = acronyms.get(i);
+			abbReplaced = abb.replaceAll("/", "_");
+			
+			File file = new File("/Users/panuyabalasuntharam/Documents/BA/abbreviations/abb/" + abbReplaced +".txt");
+			
+			if (file.exists()){
+				BufferedReader br1= new BufferedReader(new FileReader(file.getAbsolutePath()));
+				
+//				System.out.println(abbReplaced);
+				String line = br1.readLine();
+			
+				int rank = 0;
+				String longForm = "";
+				
+				while(line!=null ){
+//					System.out.println(line);
+					String arr1 [] = line.split(" ", 2);
+					
+					int tempRank= Integer.parseInt(arr1 [0]);
+					if (tempRank > rank){
+						rank = tempRank;
+						longForm = arr1 [1];
+					}
+					line= br1.readLine();
+				}
+				
+				br1.close();
+				File file2 = new File("/Users/panuyabalasuntharam/Documents/BA/abbreviations/abbNORank/"+ abbReplaced +".txt");
+				Writer output = new BufferedWriter(new FileWriter(file2.getAbsolutePath()));
+				output.append(longForm);
+				output.close();
+				
+			}
+		}
+			
+			
+			
+			
+			
+		}
 		
 	//for second medical acronyms
 	public static ArrayList<Tuple> findLongForm2() throws IOException, ParserConfigurationException, SAXException {
@@ -147,10 +199,10 @@ public class ReplaceQuery {
 			abb = acronyms.get(i);
 			abbReplaced = abb.replaceAll("/", "_");
 				
-			File file = new File("/Users/panuyabalasuntharam/Documents/BA/abbreviations/abb2/" + abbReplaced +".txt");
+			File file = new File("/Users/panuyabalasuntharam/Documents/BA/abbreviations/abbPMC/" + abbReplaced +".txt");
 				
 			if (file.exists()){
-				BufferedReader br1= new BufferedReader(new FileReader("/Users/panuyabalasuntharam/Documents/BA/abbreviations/abb2/" + abbReplaced +".txt"));
+				BufferedReader br1= new BufferedReader(new FileReader("/Users/panuyabalasuntharam/Documents/BA/abbreviations/abbPMC/" + abbReplaced +".txt"));
 					
 				String longForm= br1.readLine();
 				

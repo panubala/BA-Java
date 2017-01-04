@@ -31,8 +31,8 @@ public class Tuple {
 		this.list = list;
 	}
 	
-	Tuple(String acr, ArrayList <String> list){
-		this.acr = acr;
+	Tuple(String abb, ArrayList <String> list){
+		this.abb = abb;
 		this.list = list;
 	}
 	
