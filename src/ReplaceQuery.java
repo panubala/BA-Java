@@ -18,9 +18,12 @@ import org.xml.sax.SAXException;
 public class ReplaceQuery {
 	public static void main(String[] args) throws IOException, ParserConfigurationException, SAXException {
 		
-//		replace("note");
+		replace("description");
 		
-		compareResult("note", "2", "3");
+//		findLongForm();
+//		findLongFormComparison();
+		
+//		compareResult("note", "2", "3");
 		
 //		Writer output = new BufferedWriter(new FileWriter("/Users/panuyabalasuntharam/Documents/BA/replaced_Text_note2.txt"));
 //		output.append(replace("note").toString());
@@ -30,35 +33,54 @@ public class ReplaceQuery {
 	
 	public static ArrayList <String> replace(String key) throws IOException, ParserConfigurationException, SAXException {
 		
-		ArrayList <Tuple> acronymList=findLongFormComparison();
+		ArrayList <Tuple> acronymList=findLongForm();
+		
 		
 		ArrayList <String> query = UtilsQuery.read("/Users/panuyabalasuntharam/Documents/BA/topics2016.xml", key);
 		
 		ArrayList <Boolean> resList = compareResult(key, "2", "3");
 		
+		
+		
+		
 		//Query-loop
 		for (int j = 1; j < query.size(); j++) {
 			
+			
+			String replaced = query.get(j);
+		
 			//Acronym-loop
 			for (int i = 0; i < acronymList.size(); i++) {
-			
-			String replaced;
-			if(resList.get(j)){
-				replaced = query.get(j).replaceAll("[\\s\\[(]{1}"+acronymList.get(i).abb + "[\\s\\]),;]{1}", 
+
+				
+
+//				if(resList.get(j)){
+					replaced = replaced.replaceAll("[\\s\\[(]{1}"+acronymList.get(i).abb + "[\\s\\]),;]{1}", 
 						" "+ acronymList.get(i).longForm + " " 
-						+acronymList.get(i).abb + " " );
-			}else{
-				replaced = query.get(j).replaceAll("[\\s\\[(]{1}"+acronymList.get(i).abb + "[\\s\\]),;]{1}", 
-						" "+ acronymList.get(i).longForm2 + " " 
-						+acronymList.get(i).abb + " " );
-			}
+							+acronymList.get(i).abb + " " );
+//				}else{
+//					replaced = replaced.replaceAll("[\\s\\[(]{1}"+acronymList.get(i).abb + "[\\s\\]),;]{1}",
+//						" "+ acronymList.get(i).longForm2 + " " 
+//						+acronymList.get(i).abb + " " );
+//					
+//					Writer output = new BufferedWriter(
+//							new FileWriter("/Users/panuyabalasuntharam/Documents/BA/abbreviations/abb/" 
+//							+ acronymList.get(i).abb.replaceAll("/", "_") + ".txt", true));
+//					
+//					if (acronymList.get(i).longForm2 != null){
+//						output.append("99"+" " + acronymList.get(i).longForm2 + "\n");
+//					}
+//					
+//					output.close();
+//				}
 				
 			
-			query.set(j, replaced);
-			}
 			
+				}
+			query.set(j, replaced);
 		}
-
+		
+//		}
 		return query;
 	}
 	
@@ -80,14 +102,16 @@ public class ReplaceQuery {
 			if (file.exists()){
 				BufferedReader br1= new BufferedReader(new FileReader("/Users/panuyabalasuntharam/Documents/BA/abbreviations/abb/" + abbReplaced +".txt"));
 				
+//				System.out.println(abbReplaced);
 				String line = br1.readLine();
 			
 				int rank = 0;
 				String longForm = "";
 				
 				while(line!=null ){
-				
+//					System.out.println(line);
 					String arr1 [] = line.split(" ", 2);
+					
 					int tempRank= Integer.parseInt(arr1 [0]);
 					if (tempRank > rank){
 						rank = tempRank;
@@ -159,6 +183,7 @@ public class ReplaceQuery {
 
 		for (int i = 0; i < acronyms.size(); i++) {
 			abb = acronyms.get(i);
+			System.out.println(abb);
 			abbReplaced = abb.replaceAll("/", "_");
 			
 			File file = new File("/Users/panuyabalasuntharam/Documents/BA/abbreviations/abb/" + abbReplaced +".txt");
@@ -172,11 +197,12 @@ public class ReplaceQuery {
 				String longForm = "";
 				
 				while(line!=null ){
-				
+					
 					String arr1 [] = line.split(" ", 2);
 					int tempRank= Integer.parseInt(arr1 [0]);
 					if (tempRank > rank){
 						rank = tempRank;
+						
 						longForm = arr1 [1];
 					}
 					line= br1.readLine();
@@ -191,9 +217,7 @@ public class ReplaceQuery {
 						
 					String longForm2= br2.readLine();
 					
-					if (longForm == null){
-							longForm2 = "";
-					}
+					
 						list.add(new Tuple(abb, longForm, longForm2, i));
 						
 				}else{

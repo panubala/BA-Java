@@ -1,7 +1,10 @@
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -14,6 +17,11 @@ public class SearchInScore {
 
 	public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException {
 		search();
+//		ArrayList<Tuple> list = giveFilePaths();
+//		for (int i = 0; i < list.size(); i++) {
+//			System.out.println(list.get(i).queryNo + " " + list.get(i).filePath);
+//		}
+		
 	}
 	
 	public static void search() throws ParserConfigurationException, SAXException, IOException {
@@ -39,17 +47,16 @@ public class SearchInScore {
 		}
 		br.close();
 		
-		ArrayList<String> acronymList = acronyms.get(1).list;
+//		ArrayList<String> acronymList = acronyms.get(1).list;
 		
-		ArrayList<String> filePaths = giveFilePaths();
+		ArrayList<Tuple> filePaths = giveFilePaths();
 		ArrayList<String> content = new ArrayList<>();
 		
 		UtilsPMC utilsP = new UtilsPMC();
 		
 		
 		for (int i = 0; i < filePaths.size(); i++) {
-	
-			content.add(utilsP.getContent(filePaths.get(i)));
+			content.add(utilsP.getContent(filePaths.get(i).filePath));
 		}
 		
 	
@@ -59,54 +66,59 @@ public class SearchInScore {
 		
 		String longForm;
 		ArrayList <Tuple> list1 = new ArrayList <>();
-		
-		for (int i = 0; i < content.size(); i++) {
-			for (int j = 0; j < acronymList.size(); j++) {
-				if(content.get(i).contains(acronymList.get(j))){
-//					System.out.println(acronymList.get(j));
-					
-					acr = acronymList.get(j);
-					ArrayList <String> listTemp = new ArrayList <>();
-					
-					
-					
-					tag = "\\s[A-Za-z]*";
-					
-					for (int j2 = 1; j2 < acr.length(); j2++) {
-						tag = tag + "\\s[A-Za-z]*";
+//		System.out.println(content.size());
+//		System.out.println(filePaths.size());
+		// for each query
+		for (int k = 1; k < 31; k++) {
+			for (int i = 0; i < 10; i++) {
+				for (int j = 0; j < acronyms.get(k).list.size(); j++) {
+					if(content.get(10*(k-1) + i).contains(acronyms.get(k).list.get(j))){
+////						System.out.println(acronymList.get(j));
+						longForm = "";
+						acr = acronyms.get(k).list.get(j);
+						ArrayList <String> listTemp = new ArrayList <>();
+						
+						
+						
+						tag = "\\s[^\\s]*";
+						
+						for (int j2 = 1; j2 < acr.length(); j2++) {
+							tag =  "\\s[^\\s]*" + tag;	
+						}
+						
+						Pattern regex = Pattern.compile(tag + "\\s[\\[(]+" + acr +  "[\\])\\s.,;:]*");
+						Matcher matcher = regex.matcher(content.get(i));
+						while (matcher.find()) {
+					       longForm = matcher.group()
+					    		   .replaceAll("[\\(\\),.;:]", "")
+					    		   .replaceFirst("\\s", "")
+					    		   .replaceAll(acr, "");
+
+					       longForm = longForm.trim();
+					       
+					       //check if the first character is the same
+//					       if (acr.substring(0, 1).toLowerCase().equals(longForm.substring(0, 1).toLowerCase())){
+					       		listTemp.add(longForm);
+//					       }
+						}
+						
+						Pattern regex2 = Pattern.compile(tag + "\\s"+acr +"\\s[\\[(]+.*[\\])]");
+						Matcher matcher2 = regex2.matcher(content.get(i));
+						while (matcher2.find()) {
+					       longForm = matcher2.group();
+					       listTemp.add(longForm);
+						}
+						
+						
+						if (! listTemp.isEmpty()){
+							list1.add(new Tuple(acr, listTemp));
+						}
+						
 					}
-					
-					Pattern regex = Pattern.compile(tag + "[\\[(\\s]+"+acr +"[\\])\\s.,;:]+");
-					Matcher matcher = regex.matcher(content.get(i));
-					while (matcher.find()) {
-				       longForm = matcher.group()
-				    		   .replaceAll("\\(", "")
-				    		   .replaceAll("\\)", "")
-				    		   .replaceAll(acr, "")
-				    		   .replaceFirst("\\s", "");
-				       longForm = longForm.trim();
-				       
-				       //check if the first character is the same
-				       if (acr.substring(0, 1).toLowerCase().equals(longForm.substring(0, 1).toLowerCase())){
-				       		listTemp.add(longForm);
-				       }
-					}
-					
-					Pattern regex2 = Pattern.compile(tag + "\\s"+acr +"\\s[\\[(]+.*[\\])]");
-					Matcher matcher2 = regex2.matcher(content.get(i));
-					while (matcher2.find()) {
-				       longForm = matcher2.group();
-				       listTemp.add(longForm);
-					}
-					
-					
-					if (! listTemp.isEmpty()){
-						list1.add(new Tuple(acr, listTemp));
-					}
-					
 				}
 			}
 		}
+		
 		
 		
 		for (int i = 0; i < list1.size(); i++) {
@@ -133,27 +145,36 @@ public class SearchInScore {
 			}
 		}
 		
-		
+		Writer output;
+		output = new BufferedWriter(new FileWriter("/Users/panuyabalasuntharam/Documents/BA/acronymLongForm_added_note.txt"));
 		for (int i = 0; i < longFormList.size(); i++) {
-			System.out.println(longFormList.get(i).acr + " " + longFormList.get(i).list.toString());
+			if (!longFormList.get(i).list.isEmpty()){
+				System.out.println(longFormList.get(i).acr + " " + longFormList.get(i).list.toString());
+				output.append(longFormList.get(i).acr + " " + longFormList.get(i).list.toString() + "\n");
+			}
 		}
-
+		
+		output.close();
+		
+//		for (int i = 0; i < list1.size(); i++) {
+//			System.out.println(list1.get(i).acr + " " + list1.get(i).list.toString());
+//		}
 		
 	}
 	
-	public static ArrayList <String> giveFilePaths() throws IOException {
-		BufferedReader br1= new BufferedReader(new FileReader("/Users/panuyabalasuntharam/Documents/BA/filePathList_note.txt"));
+	public static ArrayList <Tuple> giveFilePaths() throws IOException {
+		BufferedReader br1= new BufferedReader(new FileReader("/Users/panuyabalasuntharam/Documents/BA/filePathList_note2.txt"));
 		String line = br1.readLine();
 		
-		ArrayList <String> filePaths = new ArrayList<>() ;
+		ArrayList <Tuple> filePaths = new ArrayList<>() ;
 		
-		String arr [] = line.split(" ", 2);
+		String arr [];
 		
-		//Ouery 1
-		for (int i = 0; i < 9; i++) {
-			filePaths.add(arr[1].replaceAll("/Users/neptun/Desktop/", "/Users/panuyabalasuntharam/Documents/"));
-			line = br1.readLine();
+		while(line != null) {
 			arr = line.split(" ", 2);
+			filePaths.add(new Tuple(Integer.parseInt(arr[0]),arr[1].replaceAll("/Users/neptun/Desktop/", "/Users/panuyabalasuntharam/Documents/")));
+			line = br1.readLine();
+			
 		}
 		
 		return filePaths;

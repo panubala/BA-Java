@@ -34,7 +34,7 @@ public class Tester {
    String indexDir = "/Users/panuyabalasuntharam/Documents/BA/pmc/Index/";
    Searcher searcher;
    static Writer output;
-   static Writer output2;
+//   static Writer output2;
    
   
    public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException, ParseException, org.apache.lucene.queryparser.classic.ParseException {
@@ -42,19 +42,19 @@ public class Tester {
       UtilsQuery queryProcessor = new UtilsQuery();
       
       output = new BufferedWriter(new FileWriter("/Users/panuyabalasuntharam/Documents/BA/resultFile_added_noteTest.txt"));
-      output2 = new BufferedWriter(new FileWriter("/Users/panuyabalasuntharam/Documents/BA/filePathList.txt"));
+//      output2 = new BufferedWriter(new FileWriter("/Users/panuyabalasuntharam/Documents/BA/filePathList_description2.txt"));
      
       
-      ArrayList <String> query = queryProcessor.read("/Users/panuyabalasuntharam/Documents/BA/topics2016.xml", "note");
+//      ArrayList <String> query = queryProcessor.read("/Users/panuyabalasuntharam/Documents/BA/topics2016.xml", "description");
       
       
-//      ArrayList<String> query = ReplaceQuery.replace("note");
+      ArrayList<String> query = ReplaceQuery.replace("note");
       
       for (int i = 1; i < query.size(); i++) {
     	  tester.findQuery(query.get(i), i);
       }
       output.close();
-      output2.close();
+//      output2.close();
          		
    }
    
@@ -89,7 +89,7 @@ public class Tester {
          
          output.append(Integer.toString(queryID) + " Q0 " + docid +"  " +Integer.toString(r)+" " +scoreDoc.score + " STANDARD\n");
          
-         output2.append(Integer.toString(queryID) + " " + doc.get("filepath") + "\n");
+//         output2.append(Integer.toString(queryID) + " " + doc.get("filepath") + "\n");
          
          r++;
       }

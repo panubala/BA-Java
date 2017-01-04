@@ -42,14 +42,19 @@ public class Searcher {
 	IndexReader reader;
 	
 	public static void main(String[] args) throws IOException, ParserConfigurationException, SAXException {
+//		UtilsQuery queryProcessor = new UtilsQuery();
+//		ArrayList <String> query = queryProcessor.read("/Users/panuyabalasuntharam/Documents/BA/topics2016.xml", "note");
+//		System.out.println(query.toString());
+//		for (int i = 1; i < query.size(); i++) {
+//			System.out.println("Query number: " + Integer.toString(i));
+//	    	System.out.println(giveAllLongForm(query.get(i)));
+//	    	System.out.println(giveAllAcronymsOfTheQuery(query.get(i)).toString());
+//	    }
 		UtilsQuery queryProcessor = new UtilsQuery();
 		ArrayList <String> query = queryProcessor.read("/Users/panuyabalasuntharam/Documents/BA/topics2016.xml", "note");
-		System.out.println(query.toString());
-		for (int i = 1; i < query.size(); i++) {
-			System.out.println("Query number: " + Integer.toString(i));
-	    	System.out.println(giveAllLongForm(query.get(i)));
-	    	System.out.println(giveAllAcronymsOfTheQuery(query.get(i)).toString());
-	    }
+		 for (int i = 1; i < query.size(); i++) {
+			  giveAllLongForm(query.get(i));
+	     }
 		
 	}
 
@@ -140,6 +145,7 @@ public class Searcher {
 		
 		for (int i = 0; i < acronymsOfQuery.size(); i++) {
 			 abb = acronymsOfQuery.get(i);
+			 System.out.println(abb);
 			 abbReplaced = abb.replaceAll("/", "_");
 			 
 			 File file = new File("/Users/panuyabalasuntharam/Documents/BA/abbreviations/abb/" + abbReplaced +".txt");
@@ -149,11 +155,15 @@ public class Searcher {
 				
 				int r = 0;
 				
-				while(line!=null && r<5 ){
+				while(line!=null && r<5){
 					
 					//We don't want the ranking
-					String arr1 [] = line.split(" ",2);
-					addQuery = addQuery + " " + arr1[1] ;
+					if (line != ""){
+//						System.out.println(line);
+						String arr1 [] = line.split(" ",2);
+						
+						addQuery = addQuery + " " + arr1[1] ;
+					}
 					line= br1.readLine();
 					r++;
 				}

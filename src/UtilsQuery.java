@@ -21,9 +21,11 @@ public class UtilsQuery {
 
 		
 	public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException {
-		UtilsQuery query = new UtilsQuery();
-		query.giveAllAcronymList("/Users/panuyabalasuntharam/Documents/BA/topics2016.xml", "note");
+//		UtilsQuery query = new UtilsQuery();
+//		query.giveAllAcronymList("/Users/panuyabalasuntharam/Documents/BA/topics2016.xml", "note");
 //		query.giveAllLongForm("/Users/panuyabalasuntharam/Documents/BA/topics2016.xml", "description");
+		
+		sort();
 	}
 	
 	public UtilsQuery(){}
@@ -193,5 +195,112 @@ public class UtilsQuery {
 		System.out.println(longForm);
 		
 	}
+	
+	public static void sort() throws IOException {
+		ArrayList<String> medAcr= createAbbArray();
+		
+		
+		
+		String abb;
+		String abbReplaced;
+		for (int i = 0; i < 5; i++) {
+//			medAcr.size()
+			 abb = medAcr.get(i);
+			 System.out.println(abb);
+			 abbReplaced = abb.replaceAll("/", "_");
+			 ArrayList<String> rank = new ArrayList<>();
+			 
+			File file = new File("/Users/panuyabalasuntharam/Documents/BA/abbreviations/abb/" + abbReplaced +".txt");
+			if (file.exists()){
+				BufferedReader br1= new BufferedReader(new FileReader("/Users/panuyabalasuntharam/Documents/BA/abbreviations/abb/" + abbReplaced +".txt"));	
+				String line = br1.readLine();
+				
+				int r = 0;
+				
+				while(line!=null){
+					
+					//We don't want the ranking
+//					String arr1 [] = line.split(" ",2);
+					rank.add(line);
+					line= br1.readLine();
+					r++;
+				}
+				br1.close();
+				
+				String [] arr = new String[rank.size()];
+				arr= rank.toArray(arr);
+				
+				
+				
+				int arr2 [] =  new int[rank.size()];
+				int j=0;
+				
+				for(String s : arr){
+					if (s != ""){
+						String q []= s.split(" ", 2);
+						
+						arr2[j] = Integer.parseInt(q[0]);
+					}
+				    
+				    j++;
+				}
+//				
+			
+				
+				
+				quickSort(arr2, 0, arr2.length -1);
+				
+				for(int s : arr2){
+					System.out.println(Integer.toString(s));
+				}
+			}
+			
+			
+			
+			
+		}
+		
+	}
+	
+	public static int partition(int arr [], int left, int right) {
+		int i = left, j = right;
+	    int tmp;
+	    int pivot = arr[(left + right) / 2];
+		
+		
+		
+	    while (i <= j) {
+            
+	    	while (arr[i] > pivot){
+                  i++;
+	    	}
+            while (arr[j] < pivot){
+                  j--;
+            }
+            
+            if (i >= j) {
+                  tmp = arr[i];
+                  arr[i] = arr[j];
+                  arr[j] = tmp;
+                  i++;
+                  j--;
+            }
+      }
+     
+      return i;
 
+	}
+	
+	public static void quickSort(int arr[], int left, int right) {
+		int index = partition(arr, left, right);
+	    
+		if (left > index - 1){
+	            quickSort(arr, left, index - 1);
+		}
+	      
+		if (index < right){
+	            quickSort(arr, index, right);
+		}
+
+	}
 }
