@@ -17,7 +17,7 @@ import org.xml.sax.SAXException;
 public class SearchInScore {
 
 	public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException {
-		search2();
+		search();
 //		ArrayList<Tuple> list = giveFilePaths();
 //		for (int i = 0; i < list.size(); i++) {
 //			System.out.println(list.get(i).queryNo + " " + list.get(i).filePath);
@@ -277,10 +277,10 @@ public class SearchInScore {
 
 					       longForm = longForm.trim();
 					       
-					       //check if the first character is the same
-//					       if (acr.substring(0, 1).toLowerCase().equals(longForm.substring(0, 1).toLowerCase())){
+//					       check if the first character is the same
+					       if (acr.substring(0, 1).toLowerCase().equals(longForm.substring(0, 1).toLowerCase())){
 					       		listTemp.add(longForm);
-//					       }
+					       }
 						}
 						
 						Pattern regex2 = Pattern.compile(tag + "\\s"+acr +"\\s[\\[(]+.*[\\])]");
@@ -302,43 +302,43 @@ public class SearchInScore {
 		
 		
 		
-//		for (int i = 0; i < list1.size(); i++) {
-//			Boolean bool = false;
-//			int j= 0;
-//			while(bool == false){
-//				
-//				if(list1.get(i).acr.equals(longFormList.get(j).acr)){
-//					
-//					ArrayList <String> listTemp = new ArrayList<>();
-//
-//					for (int k = 0; k < longFormList.get(j).list.size(); k++) {
-//						listTemp.add(longFormList.get(j).list.get(k));
-//					}
-//					for (int k = 0; k < list1.get(i).list.size(); k++) {
-//						listTemp.add(list1.get(i).list.get(k));
-//					}
-//					
-//					longFormList.set(j, new Tuple (longFormList.get(j).acr,listTemp));
-//
-//					bool = true;
-//				}
-//				j++;
-//			}
-//		}
+		for (int i = 0; i < list1.size(); i++) {
+			Boolean bool = false;
+			int j= 0;
+			while(bool == false){
+				
+				if(list1.get(i).abb.equals(longFormList.get(j).abb)){
+					
+					ArrayList <String> listTemp = new ArrayList<>();
+
+					for (int k = 0; k < longFormList.get(j).list.size(); k++) {
+						listTemp.add(longFormList.get(j).list.get(k));
+					}
+					for (int k = 0; k < list1.get(i).list.size(); k++) {
+						listTemp.add(list1.get(i).list.get(k));
+					}
+					
+					longFormList.set(j, new Tuple (longFormList.get(j).abb,listTemp));
+
+					bool = true;
+				}
+				j++;
+			}
+		}
 		
-//		Writer output;
-//		output = new BufferedWriter(new FileWriter("/Users/panuyabalasuntharam/Documents/BA/acronymLongForm_added_note.txt"));
+		Writer output;
+		output = new BufferedWriter(new FileWriter("/Users/panuyabalasuntharam/Documents/BA/acronymLongForm_added_note.txt"));
 		for (int i = 0; i < longFormList.size(); i++) {
 			if (!longFormList.get(i).list.isEmpty()){
-				System.out.println(longFormList.get(i).acr + " " + longFormList.get(i).list.toString());
-//				output.append(longFormList.get(i).acr + " " + longFormList.get(i).list.toString() + "\n");
+				System.out.println(longFormList.get(i).abb + " " + longFormList.get(i).list.toString());
+				output.append(longFormList.get(i).abb + " " + longFormList.get(i).list.toString() + "\n");
 			}
 		}
 //		
-//		output.close();
+		output.close();
 		
 		for (int i = 0; i < list1.size(); i++) {
-			System.out.println(list1.get(i).acr + " " + list1.get(i).list.toString());
+			System.out.println(list1.get(i).abb + " " + list1.get(i).list.toString());
 		}
 		
 	}

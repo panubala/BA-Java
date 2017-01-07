@@ -21,11 +21,11 @@ public class UtilsQuery {
 
 		
 	public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException {
-//		UtilsQuery query = new UtilsQuery();
-//		query.giveAllAcronymList("/Users/panuyabalasuntharam/Documents/BA/topics2016.xml", "note");
+		UtilsQuery query = new UtilsQuery();
+		query.giveAllAcronymList("/Users/panuyabalasuntharam/Documents/BA/topics2016.xml", "summary");
 //		query.giveAllLongForm("/Users/panuyabalasuntharam/Documents/BA/topics2016.xml", "description");
 		
-		sort();
+//		sort();
 	}
 	
 	public UtilsQuery(){}
@@ -126,7 +126,7 @@ public class UtilsQuery {
 		for (int i = 0; i < allQuery.size(); i++) {
 			ArrayList <String> acronymList = giveAllAcronymsOfTheQuery(allQuery.get(i));
 			size = size + acronymList.size();
-//			System.out.println("Query "+Integer.toString(i)+": " + acronymList.toString());
+			System.out.println("Query "+Integer.toString(i)+": " + acronymList.toString());
 			
 			acronyms.add(new Tuple(i, acronymList));
 			

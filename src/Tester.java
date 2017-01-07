@@ -39,7 +39,7 @@ public class Tester {
   
    public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException, ParseException, org.apache.lucene.queryparser.classic.ParseException {
     
-      score("description", "Test", true);
+      score("note", "Test", true);
       
 //      getfilepath("summary");
       
@@ -56,7 +56,7 @@ public class Tester {
 	   
 	   if (replace == true){
 		   output = new BufferedWriter(new FileWriter("/Users/panuyabalasuntharam/Documents/BA/resultFile_added_"+key +fileID+".txt"));
-		   query = ReplaceQuery.replace(key);
+		   query = ReplaceQuery.replace(key, 1);
 	   }else{
 		   query = queryProcessor.read("/Users/panuyabalasuntharam/Documents/BA/topics2016.xml", key);
 	   }
@@ -67,6 +67,8 @@ public class Tester {
 	      }
 	   output.close();
    }
+   
+
 
    public static void getfilepath(String key) throws ParserConfigurationException, SAXException, IOException, org.apache.lucene.queryparser.classic.ParseException {
 	
