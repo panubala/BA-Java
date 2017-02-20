@@ -7,6 +7,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -18,8 +19,8 @@ import org.xml.sax.SAXException;
 public class ReplaceQuery {
 	public static void main(String[] args) throws IOException, ParserConfigurationException, SAXException {
 		
-//		replace("note");
-		getResult("note", "Test");
+		replace("description", 1);
+//		getResult("note", "Test");
 		
 //		deleteRank();
 	
@@ -38,13 +39,9 @@ public class ReplaceQuery {
 		
 		ArrayList <Tuple> acronymList=findLongForm5(num);
 		
-		
 		ArrayList <String> query = UtilsQuery.read("/Users/panuyabalasuntharam/Documents/BA/topics2016.xml", key);
 		
 //		ArrayList <Boolean> resList = compareResult(key, "2", "3");
-		
-		
-		
 		
 		//Query-loop
 		for (int j = 1; j < query.size(); j++) {
@@ -58,7 +55,7 @@ public class ReplaceQuery {
 				
 
 //				if(resList.get(j)){
-					replaced = replaced.replaceAll("[\\s\\[(]{1}"+acronymList.get(i).abb + "[\\s\\]),;]{1}", 
+					replaced = replaced.replaceAll("[\\s\\[(]{1}"+acronymList.get(i).abb + "[\\s\\]).,;]{1}", 
 						" "+ acronymList.get(i).longForm + " " 
 							+acronymList.get(i).abb + " " );
 //				}else{
@@ -81,9 +78,36 @@ public class ReplaceQuery {
 			
 				}
 			query.set(j, replaced);
+			
 		}
-		
+		for (int i = 0; i < query.size(); i++) {
+			System.out.println(query.get(i));
+		}
 //		}
+		return query;
+	}
+	
+public static ArrayList <String> replace00(String key, int num, int num2) throws IOException, ParserConfigurationException, SAXException {
+		
+		ArrayList <Tuple> acronymList=findLongForm5(num);
+		
+		
+		ArrayList <String> query = UtilsQuery.read("/Users/panuyabalasuntharam/Documents/BA/topics2016.xml", key);
+		int j = num2;
+
+		String replaced = query.get(j);
+		
+		//Acronym-loop
+		for (int i = 0; i < acronymList.size(); i++) {
+
+					replaced = replaced.replaceAll("[\\s\\[(]{1}"+acronymList.get(i).abb + "[\\s\\]),;]{1}", 
+						" "+ acronymList.get(i).longForm + " " 
+							+acronymList.get(i).abb + " " );
+
+							
+		}
+		query.set(j, replaced);
+
 		return query;
 	}
 	
@@ -204,10 +228,10 @@ public class ReplaceQuery {
 			abb = acronyms.get(i);
 			abbReplaced = abb.replaceAll("/", "_");
 			
-			File file = new File("/Users/panuyabalasuntharam/Documents/BA/abbreviations/abb/" + abbReplaced +".txt");
+			File file = new File("/Users/panuyabalasuntharam/Documents/BA/abbreviations/myabb/" + abbReplaced +".txt");
 			
 			if (file.exists()){
-				BufferedReader br1= new BufferedReader(new FileReader("/Users/panuyabalasuntharam/Documents/BA/abbreviations/abb/" + abbReplaced +".txt"));
+				BufferedReader br1= new BufferedReader(new FileReader("/Users/panuyabalasuntharam/Documents/BA/abbreviations/myabb/" + abbReplaced +".txt"));
 				
 				String line = br1.readLine();
 			

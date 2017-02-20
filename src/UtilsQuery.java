@@ -22,7 +22,7 @@ public class UtilsQuery {
 		
 	public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException {
 		UtilsQuery query = new UtilsQuery();
-		query.giveAllAcronymList("/Users/panuyabalasuntharam/Documents/BA/topics2016.xml", "summary");
+		query.giveAllAcronymList("/Users/panuyabalasuntharam/Documents/BA/topics2016.xml", "description");
 //		query.giveAllLongForm("/Users/panuyabalasuntharam/Documents/BA/topics2016.xml", "description");
 		
 //		sort();
@@ -119,7 +119,7 @@ public class UtilsQuery {
 		
 		ArrayList <Tuple> acronyms = new ArrayList<>();
 		
-//		Writer output = new BufferedWriter(new FileWriter("/Users/panuyabalasuntharam/Documents/BA/acronymList_note.txt"));
+		Writer output = new BufferedWriter(new FileWriter("/Users/panuyabalasuntharam/Documents/BA/acronymList_"+key+".txt"));
 		
 		int size = 0; 
 		
@@ -130,15 +130,15 @@ public class UtilsQuery {
 			
 			acronyms.add(new Tuple(i, acronymList));
 			
-//			output.append("Query "+Integer.toString(i)+": " + acronymList.toString()
-//																		.replaceAll("\\[", "")
-//																		.replaceAll("\\]", "")
-//																		.replaceAll(",", "") + "\n");
+			output.append("Query "+Integer.toString(i)+": " + acronymList.toString()
+																		.replaceAll("\\[", "")
+																		.replaceAll("\\]", "")
+																		.replaceAll(",", "") + "\n");
 		}
 		
-//		output.close();
+		output.close();
 		
-//		System.out.println("\n" + Integer.toString(size));
+		System.out.println("\n" + Integer.toString(size));
 		
 		return acronyms;
 	}
@@ -198,9 +198,7 @@ public class UtilsQuery {
 	
 	public static void sort() throws IOException {
 		ArrayList<String> medAcr= createAbbArray();
-		
-		
-		
+	
 		String abb;
 		String abbReplaced;
 		for (int i = 0; i < 5; i++) {
@@ -230,8 +228,6 @@ public class UtilsQuery {
 				String [] arr = new String[rank.size()];
 				arr= rank.toArray(arr);
 				
-				
-				
 				int arr2 [] =  new int[rank.size()];
 				int j=0;
 				
@@ -245,18 +241,12 @@ public class UtilsQuery {
 				    j++;
 				}
 //				
-			
-				
-				
 				quickSort(arr2, 0, arr2.length -1);
 				
 				for(int s : arr2){
 					System.out.println(Integer.toString(s));
 				}
 			}
-			
-			
-			
 			
 		}
 		
@@ -266,8 +256,6 @@ public class UtilsQuery {
 		int i = left, j = right;
 	    int tmp;
 	    int pivot = arr[(left + right) / 2];
-		
-		
 		
 	    while (i <= j) {
             
