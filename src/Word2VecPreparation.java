@@ -14,28 +14,56 @@ public class Word2VecPreparation {
 	public static void main(String[] args) throws FileNotFoundException, IOException {
 		UtilsPMC utils = new UtilsPMC();
 		ArrayList<File>listOfFiles = new ArrayList<File>();
-		
-//		File[] listOfFiles = new File[]{};
-		
 		File folder;
+
 		
-//		File folder1 = new File("/Users/panuyabalasuntharam/Documents/BA/pmc/pmc-00/00");
-//		File[] listOfFiles1 = folder1.listFiles();
-//		
-//		System.out.println(Arrays.toString(listOfFiles1));
-		
-		
+		//pmc-00
 		for (int i = 0; i < 10; i++) {
 			folder = new File("/Users/panuyabalasuntharam/Documents/BA/pmc/pmc-00/0"+i);
-//			System.out.println(Arrays.toString(folder.listFiles()));
 			listOfFiles.addAll(Arrays.asList(folder.listFiles()));
-//			listOfFiles = Stream.concat(Arrays.stream(listOfFiles), Arrays.stream(folder.listFiles())).toArray(File[]::new);
+		}
+		for (int i = 10; i < 53; i++) {
+			folder = new File("/Users/panuyabalasuntharam/Documents/BA/pmc/pmc-00/"+i);
+			listOfFiles.addAll(Arrays.asList(folder.listFiles()));
+		}
+		
+		//pmc-01
+		for (int i = 0; i < 10; i++) {
+			folder = new File("/Users/panuyabalasuntharam/Documents/BA/pmc/pmc-01/0"+i);
+			listOfFiles.addAll(Arrays.asList(folder.listFiles()));
+			
+		}
+		
+		System.out.println("True1");
+		for (int i = 10; i < 49; i++) {
+			folder = new File("/Users/panuyabalasuntharam/Documents/BA/pmc/pmc-01/"+i);
+			listOfFiles.addAll(Arrays.asList(folder.listFiles()));	
+			
+		}
+		
+		//pmc-02
+		for (int i = 0; i < 10; i++) {
+			folder = new File("/Users/panuyabalasuntharam/Documents/BA/pmc/pmc-02/0"+i);
+			listOfFiles.addAll(Arrays.asList(folder.listFiles()));
+		}
+
+		for (int i = 10; i < 78; i++) {
+			folder = new File("/Users/panuyabalasuntharam/Documents/BA/pmc/pmc-02/"+i);
+			listOfFiles.addAll(Arrays.asList(folder.listFiles()));
+		}
+		
+		//pmc-03
+		for (int i = 0; i < 10; i++) {
+			folder = new File("/Users/panuyabalasuntharam/Documents/BA/pmc/pmc-03/0"+i);
+			listOfFiles.addAll(Arrays.asList(folder.listFiles()));
+		}
+		for (int i = 10; i < 73; i++) {
+			folder = new File("/Users/panuyabalasuntharam/Documents/BA/pmc/pmc-03/"+i);
+			listOfFiles.addAll(Arrays.asList(folder.listFiles()));	
 		}
 		
 		
-		
-		
-		
+	
 //		String content = "";
 //		for (int i = 0; i < listOfFiles.length; i++) {
 //			content = content + utils.getContent(listOfFiles[i].getAbsolutePath());
