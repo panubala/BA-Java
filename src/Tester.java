@@ -39,7 +39,7 @@ public class Tester {
   
    public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException, ParseException, org.apache.lucene.queryparser.classic.ParseException {
     
-      score("description", "Test00", true);
+      score("note", "TensorFlow1", true);
       
 //      getfilepath("summary");
       

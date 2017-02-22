@@ -64,16 +64,16 @@ public class Word2VecPreparation {
 		
 		
 	
-//		String content = "";
-//		for (int i = 0; i < listOfFiles.length; i++) {
-//			content = content + utils.getContent(listOfFiles[i].getAbsolutePath());
-//		}
-//		
-//		System.out.println(content);
-//		
-//		Writer output = new BufferedWriter(new FileWriter("/Users/panuyabalasuntharam/Documents/BA/PMC.txt"));
-//		output.append(content);
-//		output.close();
+		String content = "";
+		for (int i = 0; i < listOfFiles.size(); i++) {
+			content = content + utils.getContent(listOfFiles.get(i).getAbsolutePath());
+		}
+		
+		System.out.println(content);
+		
+		Writer output = new BufferedWriter(new FileWriter("/Users/panuyabalasuntharam/Documents/BA/PMC.txt"));
+		output.append(content);
+		output.close();
 	}
 }	
 

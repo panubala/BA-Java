@@ -37,7 +37,7 @@ public class ReplaceQuery {
 	
 	public static ArrayList <String> replace(String key, int num) throws IOException, ParserConfigurationException, SAXException {
 		
-		ArrayList <Tuple> acronymList=findLongForm5(num);
+		ArrayList <Tuple> acronymList=findLongForm2();
 		
 		ArrayList <String> query = UtilsQuery.read("/Users/panuyabalasuntharam/Documents/BA/topics2016.xml", key);
 		
@@ -87,7 +87,7 @@ public class ReplaceQuery {
 		return query;
 	}
 	
-public static ArrayList <String> replace00(String key, int num, int num2) throws IOException, ParserConfigurationException, SAXException {
+	public static ArrayList <String> replace00(String key, int num, int num2) throws IOException, ParserConfigurationException, SAXException {
 		
 		ArrayList <Tuple> acronymList=findLongForm5(num);
 		
@@ -382,11 +382,13 @@ public static ArrayList <String> replace00(String key, int num, int num2) throws
 			abb = acronyms.get(i);
 			abbReplaced = abb.replaceAll("/", "_");
 				
-			File file = new File("/Users/panuyabalasuntharam/Documents/BA/abbreviations/abbPMC/" + abbReplaced +".txt");
+//			File file = new File("/Users/panuyabalasuntharam/Documents/BA/abbreviations/abbPMC/" + abbReplaced +".txt");
+			File file = new File("/Users/panuyabalasuntharam/Documents/BA/abbTensorFlow2/" + abbReplaced +".txt");
 				
 			if (file.exists()){
-				BufferedReader br1= new BufferedReader(new FileReader("/Users/panuyabalasuntharam/Documents/BA/abbreviations/abbPMC/" + abbReplaced +".txt"));
-					
+//				BufferedReader br1= new BufferedReader(new FileReader("/Users/panuyabalasuntharam/Documents/BA/abbreviations/abbPMC/" + abbReplaced +".txt"));
+				BufferedReader br1= new BufferedReader(new FileReader("/Users/panuyabalasuntharam/Documents/BA/abbTensorFlow2/" + abbReplaced +".txt"));
+				
 				String longForm= br1.readLine();
 				
 				if (longForm == null){
