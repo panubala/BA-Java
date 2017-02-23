@@ -383,11 +383,11 @@ public class ReplaceQuery {
 			abbReplaced = abb.replaceAll("/", "_");
 				
 //			File file = new File("/Users/panuyabalasuntharam/Documents/BA/abbreviations/abbPMC/" + abbReplaced +".txt");
-			File file = new File("/Users/panuyabalasuntharam/Documents/BA/abbTensorFlow2/" + abbReplaced +".txt");
+			File file = new File("/Users/panuyabalasuntharam/Documents/BA/abbTensorFlow4/" + abbReplaced +".txt");
 				
 			if (file.exists()){
 //				BufferedReader br1= new BufferedReader(new FileReader("/Users/panuyabalasuntharam/Documents/BA/abbreviations/abbPMC/" + abbReplaced +".txt"));
-				BufferedReader br1= new BufferedReader(new FileReader("/Users/panuyabalasuntharam/Documents/BA/abbTensorFlow2/" + abbReplaced +".txt"));
+				BufferedReader br1= new BufferedReader(new FileReader("/Users/panuyabalasuntharam/Documents/BA/abbTensorFlow4/" + abbReplaced +".txt"));
 				
 				String longForm= br1.readLine();
 				

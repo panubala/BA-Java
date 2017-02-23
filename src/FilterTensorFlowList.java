@@ -26,35 +26,44 @@ public class FilterTensorFlowList {
 			if (file.exists()){
 				
 				BufferedReader br1= new BufferedReader(new FileReader("/Users/panuyabalasuntharam/Documents/BA/abbTensorFlow/" + abbReplaced +".txt"));
-//				Writer output = new BufferedWriter(new FileWriter("/Users/panuyabalasuntharam/Documents/BA/abbTensorFlow3/" + abbReplaced +".txt"));
+				Writer output = new BufferedWriter(new FileWriter("/Users/panuyabalasuntharam/Documents/BA/abbTensorFlow4/" + abbReplaced +".txt"));
 				String line = br1.readLine();
 				System.out.println(line);
 				while(line!=null ){
 					line =line.replaceAll("[-///]", " ");
-					if(filter(line)){
+					if(filter(line, abb)){
 						System.out.println(line);
-//						output.append(line + "\n");
+						output.append(line + "\n");
 					}
 					line= br1.readLine();
 				}
 				br1.close();
-//				output.close();
+				output.close();
 			}
 		}
 		
 	}
 	
-	static public  Boolean filter(String input) {
+	static public  Boolean filter(String input, String abb) {
+		
+		if(input.toLowerCase().charAt(0) != abb.toLowerCase().charAt(0)){
+			return false;
+		}
+		
+		if(input.contains(abb)){
+			return false;
+		}
+		
 		Pattern p = Pattern.compile(".*[0-9+//(//)]+.*");
 		Matcher m = p.matcher(input);
 		
 		if (m.find()){
 			return false;
-		}else{
-			return true;
 		}
 		
 		
+		
+		return true;
 		
 	}
 	
